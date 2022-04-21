@@ -1,0 +1,13 @@
+*.pyc
+__pycache__/
+local_settings.py
+env/
+.env.dev
+
+node_modules/
+npm-debug.log
+yarn-error.log
+
+kwork/
+media/
+static/
