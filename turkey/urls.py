@@ -21,6 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('market/', include('market.urls')),
+    path('treewidget/', include('treewidget.urls')),
 ]
 
 if settings.DEBUG:

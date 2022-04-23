@@ -4,6 +4,7 @@ from uuid import uuid4
 from django.db import models
 from django.contrib.auth.models import User
 from treebeard.mp_tree import MP_Node
+from treewidget.fields import TreeForeignKey
 
 
 def image_rename(instance, filename):
@@ -20,6 +21,11 @@ class Category(MP_Node):
         verbose_name='название',
         max_length=50,
         unique=True
+    )
+    extra_fields = models.JSONField(
+        verbose_name='дополнительные поля',
+        null=True,
+        blank=True,
     )
 
     node_order_by = ['name']
@@ -71,16 +77,17 @@ class Lot(models.Model):
     """Объявление"""
     title = models.CharField(
         verbose_name='заголовок',
-        max_length=50,
+        max_length=150,
         blank=False,
         null=False,
     )
-    category = models.ForeignKey(
+    category = TreeForeignKey(
         to=Category,
         verbose_name='категория',
         blank=False,
         null=False,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        settings={'show_buttons': True, 'filtered': True},
     )
     author = models.ForeignKey(
         to=User,
@@ -91,9 +98,9 @@ class Lot(models.Model):
     )
     created_at = models.DateTimeField(
         verbose_name='создано',
-        auto_now_add=True,
+        auto_now=True,
     )
-    price = models.IntegerField(
+    price = models.FloatField(
         verbose_name='цена',
         blank=False,
         null=False,
@@ -110,6 +117,11 @@ class Lot(models.Model):
     # )
     description = models.TextField(
         verbose_name='описание'
+    )
+    extra_fields = models.JSONField(
+        verbose_name='дополнительные поля',
+        null=True,
+        blank=True,
     )
     thumbnail = models.ImageField(
         verbose_name='превью',
