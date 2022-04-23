@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 mb-5 mb-lg-0">
+
+            <h2 class="font-weight-bold text-5 mb-0">Регистрация</h2>
+
+            <div class="row">
+                <div class="form-group col">
+                    <p class="text-2 mb-2">
+                        Уже есть аккаунт? Перейдите к <a href="{{ login_url }}" class="text-decoration-none">форме входа.</a>
+                    </p>
+                </div>
+            </div>
+
+            <form class="signup" action="{% url 'account_signup' %}" id="signup_form" method="post">
+
+                {% csrf_token %}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <label class="error">
+                    {{ form.non_field_errors }}
+                </label>
+                {% for field in form %}
+                <label class="error">
+                    {{ field.errors }}
+                </label>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="form-group col">
+                        <label class="form-label text-color-dark text-3" for="id_username">
+                            Имя пользователя <span class="text-color-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control form-control-lg text-4" required name="username" placeholder="Имя пользователя" autocomplete="username" minlength="1" maxlength="150" id="id_username">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <label class="form-label text-color-dark text-3" for="id_email">
+                            E-mail (не обязательно)
+                        </label>
+                        <input type="email" class="form-control form-control-lg text-4"  name="email" placeholder="E-mail адрес" autocomplete="email" id="id_email">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <label class="form-label text-color-dark text-3" for="id_password1">
+                            Пароль <span class="text-color-danger">*</span>
+                        </label>
+                        <input type="password" class="form-control form-control-lg text-4" name="password1" placeholder="Пароль" autocomplete="new-password" required id="id_password1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <label class="form-label text-color-dark text-3" for="id_password2">
+                            Пароль (еще раз) <span class="text-color-danger">*</span>
+                        </label>
+                        <input type="password" class="form-control form-control-lg text-4" name="password2" placeholder="Пароль" autocomplete="new-password" required id="id_password2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <button type="submit" class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3" data-loading-text="Loading...">Регистрация</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

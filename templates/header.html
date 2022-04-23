@@ -142,12 +142,13 @@
                             </li>
                         </ul>
                         <div class="d-flex col-auto col-lg-2 pe-0 ps-0 ps-xl-3">
+                            {% if user.is_authenticated %}
                             <ul class="header-extra-info">
                                 <li class="ms-0 ms-xl-4">
                                     <div class="header-extra-info-icon">
-                                        <a href="#" class="text-decoration-none text-color-dark text-color-hover-primary text-2">
-                                            <i class="icons icon-user"></i>
-                                        </a>
+                                            <a href="{% url 'account_logout' %}" class="text-decoration-none text-color-dark text-color-hover-primary text-2">
+                                                <i class="icons icon-user"></i>
+                                            </a>
                                     </div>
                                 </li>
                                 <li class="me-2 ms-3">
@@ -158,6 +159,13 @@
                                     </div>
                                 </li>
                             </ul>
+                            {% else %}
+                                <div class="d-grid gap-2 col-12">
+                                    <a href="{% url 'account_login' %}" class="btn btn-dark text-2">
+                                        Войти
+                                    </a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

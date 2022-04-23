@@ -16,12 +16,24 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.views.generic.base import RedirectView
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
+    path(
+        'accounts/profile/',
+        RedirectView.as_view(pattern_name='market', permanent=False),
+        name='profile'
+    ),
     path('market/', include('market.urls')),
     path('treewidget/', include('treewidget.urls')),
+    path(
+        '',
+        RedirectView.as_view(pattern_name='market', permanent=False),
+        name='index'
+    ),
 ]
 
 if settings.DEBUG:

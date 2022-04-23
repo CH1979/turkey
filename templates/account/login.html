@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block content %}
+
+{% get_providers as socialaccount_providers %}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 mb-5 mb-lg-0">
+
+            <h2 class="font-weight-bold text-5 mb-0">Вход</h2>
+            <form action="{% url 'account_login' %}" id="frmSignIn" method="post" class="needs-validation">
+
+                {% csrf_token %}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <label class="error">
+                    {{ form.non_field_errors }}
+                </label>
+                {% for field in form %}
+                <label class="error">
+                    {{ field.errors }}
+                </label>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="form-group col">
+                        <label class="error">
+                            {{ form.name.errors }}
+                        </label>
+                        <label class="form-label text-color-dark text-3" for="id_login">Имя пользователя <span class="text-color-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg text-4" name="login" placeholder="Имя пользователя" autocomplete="username" maxlength="150" id="id_login" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <label class="error">
+                            {{ form.password.errors }}
+                        </label>
+                        <label class="form-label text-color-dark text-3" for="id_password">Пароль <span class="text-color-danger">*</span></label>
+                        <input type="password" class="form-control form-control-lg text-4" name="password" placeholder="Пароль" autocomplete="current-password" id="id_password" required>
+                    </div>
+                </div>
+                <div class="row justify-content-between">
+                    <div class="form-group col-md-auto">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="remember" id="id_remember">
+                            <label class="form-label custom-control-label cur-pointer text-2" for="id_remember">Запомнить меня</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-auto">
+                        <a class="text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2" href="{% url 'account_reset_password' %}">Забыли пароль?</a>
+                    </div>
+                </div>
+
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+
+                <div class="row">
+                    <div class="form-group col">
+                        <button type="submit" class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3" data-loading-text="Loading...">Вход</button>
+
+                        <div class="divider">
+                            <span class="bg-light px-4 position-absolute left-50pct top-50pct transform3dxy-n50">или</span>
+                        </div>
+
+                        <a href="{{ signup_url }}" class="btn btn-dark btn-modern w-100 text-transform-none rounded-0 font-weight-bold align-items-center d-inline-flex justify-content-center text-3 py-3" data-loading-text="Loading...">Регистрация</a>
+
+                        <div class="divider">
+                            <span class="bg-light px-4 position-absolute left-50pct top-50pct transform3dxy-n50">или войдите с помощью</span>
+                        </div>
+
+                        {% if socialaccount_providers %}
+
+                            {% for provider in socialaccount_providers %}
+
+                                {% if provider.id == "openid" %}
+                                    {% for brand in provider.get_brands %}
+                                        <a  title="{{brand.name}}" 
+                                            class="btn btn-primary-scale-2 btn-modern w-100 text-transform-none rounded-0 font-weight-bold align-items-center d-inline-flex justify-content-center text-3 py-3 socialaccount_provider {{provider.id}} {{brand.id}}" 
+                                            data-loading-text="Loading..."
+                                            href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
+                                            >{{brand.name}}</a>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <a  title="{{provider.name}}"
+                                    class="btn btn-primary-scale-2 btn-modern w-100 text-transform-none rounded-0 font-weight-bold align-items-center d-inline-flex justify-content-center text-3 py-3 socialaccount_provider {{provider.id}}" 
+                                    data-loading-text="Loading..."
+                                    href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">{{provider.name}}</a>
+
+                            {% endfor %}
+
+                            {% providers_media_js %}
+
+                        {% endif %}
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

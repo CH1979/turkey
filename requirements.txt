@@ -1,4 +1,5 @@
 django==3.2.13
+django-allauth==0.50.0
 django-treebeard==4.5.1
 django-treewidget==0.4.2
 pillow==9.1.0

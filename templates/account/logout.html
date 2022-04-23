@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 mb-5 mb-lg-0">
+
+            <h2 class="font-weight-bold text-5 mb-0">Выход</h2>
+
+            <div class="row">
+                <div class="form-group col">
+                    <p class="text-2 mb-2">
+                        Вы уверены, что хотите выйти?
+                    </p>
+                </div>
+            </div>
+
+            <form class="logout" action="{% url 'account_logout' %}" method="post">
+
+                {% csrf_token %}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <label class="error">
+                    {{ form.non_field_errors }}
+                </label>
+                {% for field in form %}
+                <label class="error">
+                    {{ field.errors }}
+                </label>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="form-group col">
+                        <button type="submit" class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3" data-loading-text="Loading...">
+                            Выйти
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="row">
+                <div class="form-group col">
+                    <p class="text-2 mb-2">
+                        Вернуться на <a href="{% url 'index' %}" class="text-decoration-none">главную.</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
