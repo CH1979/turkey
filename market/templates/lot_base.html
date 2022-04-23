@@ -13,14 +13,34 @@
                     <!--  Categories -->
                     <h5 class="font-weight-semi-bold pt-3">Категории</h5>
                     <ul class="nav nav-list flex-column">
-                    {% for item in category_list %}
-                        <li class="nav-item">
-                            <a class="nav-link dropdown" href="#">
-                                {{ item }}
-                            </a>
-                        </li>
-                    {% endfor %}
+                        {% for category in category_list %}
+                            {% if category == current_category %}
+                                <li class="nav-item">
+                                    <a class="active" href="{% url 'category-detail' category.id %}">
+                                        {{ category }}
+                                    </a>
+                                    {% if category_children %}
+                                        <ul>
+                                            {% for child in category_children %}
+                                                <li class="nav-item">
+                                                    <a href="{% url 'category-detail' child.id %}">
+                                                        {{ child }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}    
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a  href="{% url 'category-detail' category.id %}">
+                                        {{ category }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
                     </ul>
+
                     <!--   Tags  -->
                     <h5 class="font-weight-semi-bold pt-5">Tags</h5>
                     <div class="mb-3 pb-1">

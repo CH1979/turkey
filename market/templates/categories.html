@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul class="nav nav-list flex-column">
+{% for level_1 in categories %}
+    <li class="nav-item-custom">
+        <i class="nav-expand-custom fa-solid fa-chevron-down"></i>
+        <a class="nav-link-custom" href="{% url 'category-detail' level_1.id %}">
+            {{ level_1.data.name }}
+        </a>
+        {% if level_1.children %}
+            <ul>
+                {% for level_2 in level_1.children %}
+                    <li>
+                        {{ level_2.data.name }}
+                        {% if level_2.children %}
+                            <ul>
+                            {% for level_3 in level_2.children %}
+                                <li>
+                                    {{ level_3.data.name }}
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
+
+
+{% endblock %}
