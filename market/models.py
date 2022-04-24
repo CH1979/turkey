@@ -15,6 +15,23 @@ def image_rename(instance, filename):
     return os.path.join('images', filename)
 
 
+class ExtraField(models.Model):
+    """Наборы дополнительных полей"""
+    description = models.JSONField(
+        verbose_name='описание набора',
+        null=False,
+        blank=False,
+    )
+
+    class Meta:
+        verbose_name = 'набор дополнительных полей'
+        verbose_name_plural = 'наборы дополнительных полей'
+
+    def __str__(self):
+        desc = ', '.join([str(x['name']) for x in self.description])
+        return desc
+
+
 class Category(MP_Node):
     """Категория объявления"""
     name = models.CharField(
@@ -22,10 +39,12 @@ class Category(MP_Node):
         max_length=50,
         unique=True
     )
-    extra_fields = models.JSONField(
+    extra_fields = models.ForeignKey(
+        to=ExtraField,
         verbose_name='дополнительные поля',
         null=True,
         blank=True,
+        on_delete=models.SET_NULL,
     )
 
     node_order_by = ['name']
@@ -36,6 +55,13 @@ class Category(MP_Node):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        """При сохранении модели добавляем такой же набор дополнительных полей
+        всем дочерним категориям
+        """
+        self.get_descendants().update(extra_fields=self.extra_fields)
+        return super().save(*args, **kwargs)
 
 
 class Currency(models.Model):
@@ -87,7 +113,7 @@ class Lot(models.Model):
         blank=False,
         null=False,
         on_delete=models.CASCADE,
-        settings={'show_buttons': True, 'filtered': True},
+        settings={ 'filtered': True },
     )
     author = models.ForeignKey(
         to=User,

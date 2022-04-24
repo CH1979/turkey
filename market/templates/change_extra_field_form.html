@@ -1,0 +1,83 @@
+{% extends "admin/change_form.html" %}
+{% block field_sets %}
+
+{{ adminform.form.description }}
+
+<table id="result">
+</table>
+<form id="extra_field_form">
+    <p>
+        <label for="field_name">Название поля</label>
+        <input type="text" id="field_name">
+    </p>
+    <p>
+        <label for="field_type">Тип поля</label>
+        <select id="field_type">
+            <option value="string">Строка</option>
+            <option value="number">Число</option>
+            <option value="year">Год</option>
+        </select>
+    </p>
+    <p>
+        <label for="field_required">Обязательное</label>
+        <input type="checkbox" id="field_required" checked>
+    </p>
+    <p>
+        <input type="button" id="add_field" value="Добавить поле" onclick="addField()">
+    </p>
+</form>
+
+<script>
+    const TABLE_HEAD = "<th>Поле</th><th>Тип поля</th><th>Обязательное</th>";
+    const RESULT = document.getElementById("result");
+    const EXIST_DATA = document.getElementById("id_description");
+
+    let extra_fields = [];
+
+    function readExistData() {
+        let raw_data = EXIST_DATA.value;
+        EXIST_DATA.style.display = "none";
+
+        if ( raw_data=='' ) {
+            RESULT.style.display = "none";
+        } else {
+            let parsed_data = JSON.parse(raw_data);
+            console.log(parsed_data);
+
+            if ( typeof parsed_data === 'object' && !Array.isArray(parsed_data) && parsed_data !== null ) {
+                extra_fields.push(parsed_data);
+                refreshTable();
+            } else if ( parsed_data instanceof Array ) {
+                extra_fields.push(...parsed_data);
+                refreshTable();
+            }
+        }
+    } 
+    function refreshTable() {
+        if ( extra_fields.length > 0 ) {
+            RESULT.innerHTML = TABLE_HEAD;
+            RESULT.style.display = "block";
+            for (item of extra_fields) {
+                new_row = `<tr><td>${ item.name }</td><td>${ item.type }</td><td>${ item.required }</td></tr>`;
+                RESULT.innerHTML += new_row;
+            }
+        }
+    }
+    function addField(event) {
+        let field_name = document.getElementById("field_name").value;
+        let field_type = document.getElementById("field_type").value;
+        let field_required = document.getElementById("field_required").checked;
+
+        let field = {
+            name: field_name,
+            type: field_type,
+            required: field_required
+        }
+        extra_fields.push(field);
+        EXIST_DATA.value = JSON.stringify(extra_fields);
+        refreshTable();
+    }
+    document.addEventListener("DOMContentLoaded", readExistData);
+</script>
+
+{% endblock %}
