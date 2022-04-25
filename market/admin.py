@@ -15,6 +15,26 @@ class ExtraFieldAdmin(admin.ModelAdmin):
     change_form_template = 'change_extra_field_form.html'
 
 
+class ImagesInline(admin.TabularInline):
+    model = models.Gallery
+
+
+@admin.register(models.Lot)
+class LotAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'category',
+        'author',
+        'created_at',
+        'price',
+        'currency',
+        'description',
+        'extra_fields',
+        'thumbnail',
+        'video_url',
+    )
+    inlines = [ImagesInline]
+
+
 admin.site.register(models.Category, CategoryAdmin)
 admin.site.register(models.Currency)
-admin.site.register(models.Lot)
