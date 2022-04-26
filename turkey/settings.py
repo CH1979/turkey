@@ -41,9 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'market',
+    'personal',
 
     'treebeard',
     'treewidget',
+
+    'stdimage',
 
     'allauth',
     'allauth.account',

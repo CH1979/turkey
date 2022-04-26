@@ -18,7 +18,7 @@
                         </div>
                         <a href="{% url 'lot-detail' lot.id %}">
                             <div class="product-thumb-info-image">
-                                <img alt="" class="img-fluid" src="{{ lot.thumbnail.url }}">
+                                <img alt="" class="img-fluid" src="{{ lot.gallery_set.all.0.image.medium.url }}">
                             </div>
                         </a>
                     </div>

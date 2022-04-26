@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from django.db import models
 from django.contrib.auth.models import User
+from stdimage import StdImageField
 from treebeard.mp_tree import MP_Node
 from treewidget.fields import TreeForeignKey
 
@@ -12,7 +13,7 @@ def image_rename(instance, filename):
     _, ext = os.path.splitext(filename)
     name = uuid4().hex
     filename = "{}{}".format(name, ext)
-    return os.path.join('images', filename)
+    return os.path.join('images', 'market', filename)
 
 
 class ExtraField(models.Model):
@@ -149,12 +150,6 @@ class Lot(models.Model):
         null=True,
         blank=True,
     )
-    thumbnail = models.ImageField(
-        verbose_name='превью',
-        upload_to=image_rename,
-        null=True,
-        blank=True,
-    )
     video_url = models.URLField(
         verbose_name='видео',
         null=True,
@@ -171,7 +166,7 @@ class Lot(models.Model):
 
 class Gallery(models.Model):
     """
-    Изображение объявления
+    Галерея изображений
     """
     lot = models.ForeignKey(
         to=Lot,
@@ -180,20 +175,20 @@ class Gallery(models.Model):
         blank=False,
         on_delete=models.CASCADE
     )
-    image = models.ImageField(
+    image = StdImageField(
         verbose_name='изображение',
-        null=False,
-        blank=False
-    )
-    thumbnail = models.ImageField(
-        verbose_name='превью',
-        null=False,
-        blank=False
+        upload_to=image_rename,
+        null=True,
+        blank=True,
+        variations={
+            'medium': (336, 336)
+        },
+        delete_orphans=True
     )
 
     class Meta:
-        verbose_name = 'изображение'
-        verbose_name_plural = 'изображения'
+        verbose_name = 'галерея'
+        verbose_name_plural = 'галереи'
 
     def __str__(self):
         return '{} - {}'.format(self.lot, self.id)

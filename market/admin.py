@@ -30,7 +30,6 @@ class LotAdmin(admin.ModelAdmin):
         'currency',
         'description',
         'extra_fields',
-        'thumbnail',
         'video_url',
     )
     inlines = [ImagesInline]
