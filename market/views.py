@@ -1,5 +1,6 @@
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import (
     CreateView,
@@ -7,9 +8,9 @@ from django.views.generic import (
     DetailView,
     ListView
 )
-from django.views.generic.base import TemplateView
 
 from . import models
+from .forms import CategoryForm
 
 
 class LotDetailView(DetailView):
@@ -56,13 +57,23 @@ class LotListView(ListView):
         return queryset
 
 
+def category_select(request):
+    form = CategoryForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            request.session['category_id'] = form.cleaned_data['category'].id
+            return HttpResponseRedirect(reverse('lot_create'))
+
+    return render(request, 'market/category_select.html', {'form': form})
+
+
 class LotCreateView(CreateView):
     """Представление для создания объявления"""
     template_name = 'market/lot_create.html'
     model = models.Lot
     fields = [
         'title',
-        'category',
         'price',
         'currency',
         'description',
@@ -71,11 +82,26 @@ class LotCreateView(CreateView):
     ]
 
     def form_valid(self, form):
+        category_id = self.request.session['category_id']
+
+        form.instance.category = models.Category.objects.get(id=category_id)
         form.instance.author = self.request.user
+        print(form.instance.extra_fields)
         return super().form_valid(form)
+
 
     def get_success_url(self, **kwargs):
         return reverse('gallery', kwargs={'pk': self.object.pk})
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        category_id = self.request.session['category_id']
+        extra_fields = models.ExtraField.objects.get(category=category_id)
+        context['extra_fields'] = extra_fields
+
+        return context
 
 
 class GalleryListView(ListView):

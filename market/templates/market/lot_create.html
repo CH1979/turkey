@@ -35,14 +35,6 @@
             
                 <div class="row">
                     <div class="form-group col">
-                        <label class="form-label text-color-dark text-3" for="id_title">Категория:</label>
-                        {{ form.category }}
-                    </div>
-                </div>
-            
-            
-                <div class="row">
-                    <div class="form-group col">
                         <label class="form-label text-color-dark text-3" for="id_price">Цена:</label>
                         <input class="form-control form-control-lg text-4" type="number" name="price" step="any" required id="id_price">
                     </div>
@@ -66,19 +58,23 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="form-group col">
-                        <label class="form-label text-color-dark text-3" for="id_extra_fields">Дополнительные поля:</label>
-                        <textarea class="form-control form-control-lg text-4" name="extra_fields" cols="40" rows="4" id="id_extra_fields">null</textarea>
+                {% for field in extra_fields.description %}
+                    <div class="row">
+                        <div class="form-group col">
+                            <label class="form-label text-color-dark text-3" for="id_extra_fields">{{ field.name }}:</label>
+                            <input class="form-control form-control-lg text-4 extra-field" name="{{ field.name }}">
+                        </div>
                     </div>
-                </div>
-            
+                {% endfor %}
+
                 <div class="row">
                     <div class="form-group col">
                         <label class="form-label text-color-dark text-3" for="id_video_url">Видео:</label>
                         <input class="form-control form-control-lg text-4" type="url" name="video_url" maxlength="200" id="id_video_url">
                     </div>
                 </div>
+
+                <input name="extra_fields" type="hidden" id="id_extra_fields">
 
                 <div class="row">
                     <div class="form-group col">
@@ -92,6 +88,17 @@
     </div>
 </div>
 <script>
-    
+    let extra_fields = document.getElementsByClassName('extra-field');
+    let result = {}
+    let result_input = document.getElementById('id_extra_fields');
+
+    for (let field of extra_fields) {
+        field.oninput = createResult;
+    }
+
+    function createResult(e) {
+        result[e.target.name] = e.target.value;
+        result_input.value = JSON.stringify(result);
+    }
 </script>
 {% endblock %}

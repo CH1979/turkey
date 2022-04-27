@@ -27,7 +27,7 @@
 
             <h2 class="font-weight-bold text-5 mb-0">Добавить фото</h2>
 
-            <form id="id_gallery"></form>
+            <form id="id_gallery">{% csrf_token %}</form>
 
             <div class="custom-file-container img-fluid" data-upload-id="id_image"></div>
 

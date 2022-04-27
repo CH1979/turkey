@@ -11,6 +11,11 @@ urlpatterns = [
         views.LotListView.as_view(),
         name='market'
     ),
+    path(
+        'category/select/',
+        views.category_select,
+        name='category_select'
+    ),
     # Создание объявления
     path(
         'lot/create/',
