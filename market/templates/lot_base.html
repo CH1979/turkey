@@ -10,20 +10,27 @@
             <div class="col-lg-3 order-2 order-lg-1">
                 
                 <aside class="sidebar">
+
+                    <div class="d-grid col-12">
+                        <a class="btn btn-primary btn-outline" href="{% url 'lot_create' %}">
+                            Добавить объявление
+                        </a>
+                    </div>
+
                     <!--  Categories -->
                     <h5 class="font-weight-semi-bold pt-3">Категории</h5>
                     <ul class="nav nav-list flex-column">
                         {% for category in category_list %}
                             {% if category == current_category %}
                                 <li class="nav-item">
-                                    <a class="active" href="{% url 'category-detail' category.id %}">
+                                    <a class="active" href="{% url 'category_detail' category.id %}">
                                         {{ category }}
                                     </a>
                                     {% if category_children %}
                                         <ul>
                                             {% for child in category_children %}
                                                 <li class="nav-item">
-                                                    <a href="{% url 'category-detail' child.id %}">
+                                                    <a href="{% url 'category_detail' child.id %}">
                                                         {{ child }}
                                                     </a>
                                                 </li>
@@ -33,7 +40,7 @@
                                 </li>
                             {% else %}
                                 <li class="nav-item">
-                                    <a  href="{% url 'category-detail' category.id %}">
+                                    <a  href="{% url 'category_detail' category.id %}">
                                         {{ category }}
                                     </a>
                                 </li>

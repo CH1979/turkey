@@ -9,7 +9,11 @@ from treewidget.fields import TreeForeignKey
 
 
 def image_rename(instance, filename):
-    """Переименовывает загружаемые изображения"""
+    """Переименовывает загружаемые изображения.
+    В изображениях, полученных из JS-скрипта обрезается часть
+    имени файла, добавленная скриптом (:upload...)"""
+    if ':' in filename:
+        filename = filename.split(':')[0]
     _, ext = os.path.splitext(filename)
     name = uuid4().hex
     filename = "{}{}".format(name, ext)

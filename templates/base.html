@@ -45,8 +45,17 @@
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
+		<!-- Treewidget CSS -->
+		<link href="{% static 'treewidget/themes/default/style.css' %}" type="text/css" media="screen" rel="stylesheet">
+		<link href="{% static 'treewidget/default.css' %}" type="text/css" media="screen" rel="stylesheet">
+
+		<!-- Upload images styles -->
+		<link href="{% static 'imageupload/file-upload-with-preview.min.css' %}" rel="stylesheet" type="text/css">
+
 		<!-- Head Libs -->
 		<script src="{% static 'vendor/modernizr/modernizr.min.js' %}"></script>
+
+		{% block head %}{% endblock %}
 
 	</head>
 	<body data-plugin-page-transition>
@@ -82,14 +91,20 @@
 		<!-- Current Page Vendor and Views -->
 		<script src="{% static 'js/views/view.shop.js' %}"></script>
 
-		<!-- Theme Custom -->
-		<script src="{% static 'js/custom.js' %}"></script>
-
 		<!-- Theme Initialization Files -->
 		<script src="{% static 'js/theme.init.js' %}"></script>
+
+		<!-- Treewidget -->
+		<script src="{% static 'treewidget/jstree.min.js' %}"></script>
+		<script src="{% static 'treewidget/default.js' %}"></script>
+
+		<!-- Theme Custom -->
+		<script src="{% static 'js/custom.js' %}" type="module"></script>
 
 	<!-- Examples -->
 	<script src="{% static 'js/examples/examples.gallery.js' %}"></script>
 
+	{% block scripts %}{% endblock %}
+	
 	</body>
 </html>

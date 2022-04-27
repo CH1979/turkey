@@ -41,25 +41,25 @@
 				<ul class="social-icons social-icons-medium social-icons-clean-with-border social-icons-clean-with-border-border-grey social-icons-clean-with-border-icon-dark me-3 mb-0">
 					<!-- Facebook -->
 					<li class="social-icons-facebook">
-						<a href="http://www.facebook.com/sharer.php?u={{ request.get_host }}{% url 'lot-detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Facebook">
+						<a href="http://www.facebook.com/sharer.php?u={{ request.get_host }}{% url 'lot_detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Facebook">
 							<i class="fab fa-facebook-f"></i>
 						</a>
 					</li>
 					<!-- Google+ -->
 					<li class="social-icons-googleplus">
-						<a href="https://plus.google.com/share?url={{ request.get_host }}{% url 'lot-detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Google+">
+						<a href="https://plus.google.com/share?url={{ request.get_host }}{% url 'lot_detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Google+">
 							<i class="fab fa-google-plus-g"></i>
 						</a>
 					</li>
 					<!-- Twitter -->
 					<li class="social-icons-twitter">
-						<a href="https://twitter.com/share?url={{ request.get_host }}{% url 'lot-detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Twitter">
+						<a href="https://twitter.com/share?url={{ request.get_host }}{% url 'lot_detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Twitter">
 							<i class="fab fa-twitter"></i>
 						</a>
 					</li>
 					<!-- Email -->
 					<li class="social-icons-email">
-						<a href="mailto:?Subject={{ request.get_host }}{% url 'lot-detail' lot.id %}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share By Email">
+						<a href="mailto:?Subject={{ request.get_host }}{% url 'lot_detail' lot.id %}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share By Email">
 							<i class="far fa-envelope"></i>
 						</a>
 					</li>

@@ -4,24 +4,50 @@ from . import views
 
 
 urlpatterns = [
+    # Объявления ##############################
+    # Список объявлений
     path(
         '',
         views.LotListView.as_view(),
         name='market'
     ),
+    # Создание объявления
+    path(
+        'lot/create/',
+        views.LotCreateView.as_view(),
+        name='lot_create',
+    ),
+    # Просмотр объявления
     path(
         '<int:pk>/',
         views.LotDetailView.as_view(),
-        name='lot-detail'
+        name='lot_detail'
     ),
+    # Список объявлений по категории
     path(
         'category/<int:pk>/',
         views.LotListView.as_view(),
-        name='category-detail'
+        name='category_detail'
     ),
+
+
+    # Фото объявления #########################
+    # Список фото
     path(
-        'categories/',
-        views.CategoryView.as_view(),
-        name='market-categories'
+        '<int:pk>/gallery/',
+        views.GalleryListView.as_view(),
+        name='gallery'
     ),
+    # Добавление фото
+    path(
+        '<int:pk>/gallery/create/',
+        views.GalleryCreateView.as_view(),
+        name='gallery_create'
+    ),
+    # Удаление фото
+    path(
+        '<int:lot>/gallery/<int:pk>/delete/',
+        views.GalleryDeleteView.as_view(),
+        name='gallery_delete'
+    )
 ]

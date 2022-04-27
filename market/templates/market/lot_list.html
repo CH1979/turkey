@@ -16,16 +16,16 @@
                                 <i class="icons icon-heart"></i>
                             </a>
                         </div>
-                        <a href="{% url 'lot-detail' lot.id %}">
+                        <a href="{% url 'lot_detail' lot.id %}">
                             <div class="product-thumb-info-image">
-                                <img alt="" class="img-fluid" src="{{ lot.gallery_set.all.0.image.medium.url }}">
+                                <img alt="{{ lot.title }}" class="img-fluid" src="{{ lot.gallery_set.all.0.image.medium.url }}">
                             </div>
                         </a>
                     </div>
                     <div class="d-flex justify-content-between">
                         <div>
-                            <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">{{ lot.category }}</a>
-                            <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">{{ lot.title }}</a></h3>
+                            <a href="{% url 'category_detail' lot.category.id %}" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">{{ lot.category }}</a>
+                            <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="{% url 'lot_detail' lot.id %}" class="text-color-dark text-color-hover-primary">{{ lot.title }}</a></h3>
                         </div>
                         <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
                     </div>
