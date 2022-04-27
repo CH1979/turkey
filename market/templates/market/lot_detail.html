@@ -6,11 +6,17 @@
 
 		<div class="thumb-gallery-wrapper">
 			<div class="thumb-gallery-detail owl-carousel owl-theme manual nav-inside nav-style-1 nav-dark mb-3">
-				{% for item in lot.gallery_set.all %}
+				{% if lot.gallery_set.all %}
+					{% for item in lot.gallery_set.all %}
+						<div>
+							<img alt="{{ lot.title }}" class="img-fluid" src="{{ item.image.medium.url }}" data-zoom-image="{{ item.image.url }}">
+						</div>
+					{% endfor %}
+				{% else %}
 					<div>
-						<img alt="{{ lot.title }}" class="img-fluid" src="{{ item.image.medium.url }}" data-zoom-image="{{ item.image.url }}">
+						<img alt="{{ lot.title }}" class="img-fluid" src="{% static 'img/no_image_large.png' %}">
 					</div>
-				{% endfor %}
+				{% endif %}
 			</div>
 			<div class="thumb-gallery-thumbs owl-carousel owl-theme manual thumb-gallery-thumbs">
 				{% for item in lot.gallery_set.all %}
@@ -233,7 +239,7 @@
 					</a>
 					<a href="shop-product-sidebar-left.html">
 						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="img/products/product-grey-1.jpg">
+							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
 						</div>
 					</a>
@@ -272,9 +278,9 @@
 					</a>
 					<a href="shop-product-sidebar-left.html">
 						<div class="product-thumb-info-image product-thumb-info-image-effect">
-							<img alt="" class="img-fluid" src="img/products/product-grey-7.jpg">
+							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-								<img alt="" class="img-fluid" src="img/products/product-grey-7-2.jpg">
+								<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
 						</div>
 					</a>
@@ -308,7 +314,7 @@
 					</a>
 					<a href="shop-product-sidebar-left.html">
 						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="img/products/product-grey-2.jpg">
+							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
 						</div>
 					</a>
@@ -347,7 +353,7 @@
 					</a>
 					<a href="shop-product-sidebar-left.html">
 						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="img/products/product-grey-3.jpg">
+							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
 						</div>
 					</a>
@@ -381,7 +387,7 @@
 					</a>
 					<a href="shop-product-sidebar-left.html">
 						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="img/products/product-grey-4.jpg">
+							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
 						</div>
 					</a>
@@ -415,7 +421,7 @@
 					</a>
 					<a href="shop-product-sidebar-left.html">
 						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="img/products/product-grey-5.jpg">
+							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
 						</div>
 					</a>
@@ -449,7 +455,7 @@
 					</a>
 					<a href="shop-product-sidebar-left.html">
 						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="img/products/product-grey-6.jpg">
+							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
 						</div>
 					</a>
@@ -483,7 +489,7 @@
 					</a>
 					<a href="shop-product-sidebar-left.html">
 						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="img/products/product-grey-8.jpg">
+							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
 						</div>
 					</a>
@@ -517,7 +523,7 @@
 					</a>
 					<a href="shop-product-sidebar-left.html">
 						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="img/products/product-grey-9.jpg">
+							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
 						</div>
 					</a>

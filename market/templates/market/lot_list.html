@@ -18,7 +18,11 @@
                         </div>
                         <a href="{% url 'lot_detail' lot.id %}">
                             <div class="product-thumb-info-image">
-                                <img alt="{{ lot.title }}" class="img-fluid" src="{{ lot.gallery_set.all.0.image.medium.url }}">
+                                {% if lot.gallery_set.all %}
+                                    <img alt="{{ lot.title }}" class="img-fluid" src="{{ lot.gallery_set.all.0.image.medium.url }}">
+                                {% else %}
+                                    <img alt="{{ lot.title }}" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                                {% endif %}
                             </div>
                         </a>
                     </div>
