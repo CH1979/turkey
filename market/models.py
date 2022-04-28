@@ -93,17 +93,6 @@ class Currency(models.Model):
         return self.name
 
 
-# class Location(models.Model):
-#     pass
-
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
-
-    # def __str__(self):
-    #     return '% - %'.format(self.lot, self.id)
-
-
 class Lot(models.Model):
     """Объявление"""
     title = models.CharField(
@@ -163,6 +152,7 @@ class Lot(models.Model):
     class Meta:
         verbose_name = 'объявление'
         verbose_name_plural = 'объявления'
+        ordering = ['-created_at']
 
     def __str__(self):
         return '{} - {}'.format(self.id, self.title)

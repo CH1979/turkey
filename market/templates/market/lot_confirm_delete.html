@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 mb-5 mb-lg-0">
+
+            <h2 class="font-weight-bold text-5 mb-0">Удаление объявления</h2>
+
+            <div class="row">
+                <div class="form-group col">
+                    <p class="text-2 mb-2">
+                        Вы уверены, что хотите удалить объявление {{ object.title }}?
+                    </p>
+                </div>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="form-group col">
+                        <button type="submit" class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3" data-loading-text="Loading...">
+                            Удалить
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="row">
+                <div class="form-group col">
+                    <p class="text-2 mb-2">
+                        <a href="{% url 'profile' user.profile.id %}" class="text-decoration-none">
+                            Вернуться к профилю пользователя.
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

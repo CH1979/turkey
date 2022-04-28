@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="row">
+        <div class="col-lg-3">
+            <aside class="sidebar">
+                <h5 class="font-weight-semi-bold pt-3">Профиль пользователя</h5>
+                {{ profile.avatar.medium.url }}
+                <p>{{ profile }}</p>
+                <p>{{ profile.phone }}</p>
+            </aside>
+        </div>
+        <div class="col-lg-9">
+
+            <div class="row">
+                <div class="col">
+                    <div id="description" class="tabs tabs-simple tabs-simple-full-width-line tabs-product tabs-dark mb-2">
+                        <ul class="nav nav-tabs justify-content-start">
+                            <li class="nav-item">
+                                <a class="nav-link active font-weight-bold text-3 text-uppercase py-2 px-3" href="#myLots" data-bs-toggle="tab">
+                                    Мои объявления
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="#favoriteLots" data-bs-toggle="tab">
+                                    Избранные объявления
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="#myTopics" data-bs-toggle="tab">
+                                    Мои темы
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="#favoriteTopics" data-bs-toggle="tab">
+                                    Темы за которыми слежу
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content p-0">
+                            <div class="tab-pane px-0 py-3 active" id="myLots">
+                                <table class="table table-striped m-0">
+                                    <tbody>
+                                        {% for lot in profile.user.lot_set.all %}
+                                            <tr class="border-top-0">
+                                                <th>
+                                                    <a href="{% url 'lot_detail' lot.id %}">
+                                                        {{ lot.title }}
+                                                    </a>
+                                                </th>
+                                                <td class="border-top-0">
+                                                    редактировать объявление
+                                                </td>
+                                                <td class="border-top-0">
+                                                    <a href="{% url 'lot_delete' lot.id %}">
+                                                        удалить объявление
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane px-0 py-3" id="favoriteLots">
+                                <table class="table table-striped m-0">
+                                    <tbody>
+                                        {% for lot in profile.lot_set.all %}
+                                            <tr class="border-top-0">
+                                                <th>
+                                                    <a href="{% url 'lot_detail' lot.id %}">
+                                                        {{ lot.title }}
+                                                    </a>
+                                                </th>
+                                                <td class="border-top-0">
+                                                    удалить из избранных
+                                                </td>
+                                            </tr>
+                                        {% empty %}
+                                            Список объявлений пуст
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane px-0 py-3" id="myTopics">
+                                <table class="table table-striped m-0">
+                                    <tbody>
+                                        Список тем пуст
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane px-0 py-3" id="favoriteTopics">
+                                <table class="table table-striped m-0">
+                                    <tbody>
+                                        Список тем пуст
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="solid my-5">
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

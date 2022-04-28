@@ -48,6 +48,8 @@ INSTALLED_APPS = [
 
     'stdimage',
 
+    'phonenumber_field',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

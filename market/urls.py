@@ -34,6 +34,12 @@ urlpatterns = [
         views.LotListView.as_view(),
         name='category_detail'
     ),
+    # Удаление объявления
+    path(
+        '<int:pk>/delete/',
+        views.LotDeleteView.as_view(),
+        name='lot_delete'
+    ),
 
 
     # Фото объявления #########################

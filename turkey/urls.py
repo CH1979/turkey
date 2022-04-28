@@ -24,8 +24,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path(
         'accounts/profile/',
-        RedirectView.as_view(pattern_name='market', permanent=False),
-        name='profile'
+        include('personal.urls')
     ),
     path('market/', include('market.urls')),
     path('treewidget/', include('treewidget.urls')),

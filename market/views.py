@@ -103,6 +103,14 @@ class LotCreateView(CreateView):
         return context
 
 
+class LotDeleteView(DeleteView):
+    """Представление для удаления объявления"""
+    model = models.Lot
+
+    def get_success_url(self):
+        return reverse('profile', kwargs={'pk': self.request.user.profile.id})
+
+
 class GalleryListView(ListView):
     """Представление фото объявления"""
     model = models.Gallery
