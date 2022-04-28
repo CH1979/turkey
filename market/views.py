@@ -86,7 +86,6 @@ class LotCreateView(CreateView):
 
         form.instance.category = models.Category.objects.get(id=category_id)
         form.instance.author = self.request.user
-        print(form.instance.extra_fields)
         return super().form_valid(form)
 
 
