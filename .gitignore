@@ -1,5 +1,6 @@
 *.pyc
 __pycache__/
+migrations/
 local_settings.py
 env/
 .env.dev
@@ -11,3 +12,5 @@ yarn-error.log
 kwork/
 media/
 static/
+
+settings.prod.py
