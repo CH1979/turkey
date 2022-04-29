@@ -1,6 +1,8 @@
 {% extends 'lot_base.html' %}
 {% load static %}
+
 {% block market_content %}
+{% csrf_token %}
 <div class="row">
 	<div class="col-lg-6">
 
@@ -70,9 +72,38 @@
 						</a>
 					</li>
 				</ul>
-				<a href="#" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
-					<i class="far fa-heart me-1"></i> В Избранное
-				</a>
+				<!--  Favorite -->
+				{% if user.is_authenticated %}
+					{% if user.profile %}
+						{% if lot in user.profile.lot.all %}
+							<a href="javascript:;"
+								class="d-flex align-items-center text-decoration-none text-color-primary text-color-hover-dark font-weight-semibold text-2"
+								title="Избранное"
+								onclick="favorite(this.id, 'unset')"
+								id="id_lot_{{ lot.id }}"
+							>
+								<i class="fa fa-heart me-1" id="id_heart_{{ lot.id }}"></i> Избранное
+							</a>
+						{% else %}
+							<a href="javascript:;"
+								class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2"
+								title="Избранное"
+								onclick="favorite(this.id, 'set')"
+								id="id_lot_{{ lot.id }}"
+							>
+								<i class="far fa-heart me-1" id="id_heart_{{ lot.id }}"></i> Избранное
+							</a>
+						{% endif %}
+					{% else %}
+						<a href="{% url 'profile_create' %}" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
+							<i class="far fa-heart me-1"></i> Избранное
+						</a>
+					{% endif %}
+				{% else %}
+					<a href="{% url 'account_login' %}" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
+						<i class="far fa-heart me-1"></i> Избранное
+					</a>
+				{% endif %}
 			</div>
 
 			<div class="d-flex align-items-center">
@@ -547,4 +578,42 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    async function favorite(clicked_item, mode) {
+        let clicked_id = clicked_item.match(/\d+/)[0];
+        let heart = document.getElementById(`id_heart_${ clicked_id }`);
+        let lot = document.getElementById(`id_lot_${ clicked_id }`);
+        let request;
+
+        if (mode=='set') {
+            heart.className = 'fa fa-heart me-1';
+            lot.className = "d-flex align-items-center text-decoration-none text-color-primary text-color-hover-dark font-weight-semibold text-2";
+            lot.onclick = function () { favorite(clicked_id, 'unset'); };
+
+            request = new Request(
+                `favorite/`,
+                {headers: {'X-CSRFToken': csrftoken}}
+            );
+        } else {
+            heart.className = 'far fa-heart me-1';
+            lot.className = "d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2";
+            lot.onclick = function () { favorite(clicked_id, 'set'); };
+
+            request = new Request(
+                `unfavorite/`,
+                {headers: {'X-CSRFToken': csrftoken}}
+            );
+        }
+
+        let response = await fetch(request, {
+            method: 'POST',
+        });
+
+    }
+</script>
 {% endblock %}

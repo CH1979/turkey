@@ -40,6 +40,18 @@ urlpatterns = [
         views.LotDeleteView.as_view(),
         name='lot_delete'
     ),
+    # Добавление в избранное
+    path(
+        '<int:pk>/favorite/',
+        views.lot_favorite,
+        name='lot_favorite'
+    ),
+    # Удаление из избранного
+    path(
+        '<int:pk>/unfavorite/',
+        views.lot_unfavorite,
+        name='lot_unfavorite'
+    ),
 
 
     # Фото объявления #########################

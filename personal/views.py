@@ -1,4 +1,5 @@
-from audioop import reverse
+from django.http import JsonResponse
+from django.urls import reverse
 from django.views.generic import CreateView, DetailView
 
 from .models import Profile
@@ -18,4 +19,4 @@ class ProfileCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('profile', kwargs={'pk': self.pk})
+        return reverse('index')

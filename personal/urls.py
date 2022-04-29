@@ -10,7 +10,7 @@ urlpatterns = [
         name='profile'
     ),
     path(
-        'create',
+        'create/',
         views.ProfileCreateView.as_view(),
         name='profile_create'
     )

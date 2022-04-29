@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block market_content %}
+{% csrf_token %}
     <div class="masonry-loader masonry-loader-showing">
         <div class="row products product-thumb-info-list" data-plugin-masonry data-plugin-options="{'layoutMode': 'fitRows'}">
 
@@ -12,9 +13,27 @@
                     <div class="product-thumb-info border-0 mb-3">
 
                         <div class="addtocart-btn-wrapper">
-                            <a href="#" class="text-decoration-none addtocart-btn" title="В Избранное">
-                                <i class="icons icon-heart"></i>
-                            </a>
+                            {% if user.is_authenticated %}
+                                {% if user.profile %}
+                                    {% if lot in user.profile.lot.all %}
+                                        <a href="javascript:;" class="text-decoration-none addtocart-btn" title="Избранное" onclick="favorite(this.id, 'unset')" id="id_lot_{{ lot.id }}">
+                                            <i class="icons icon-heart"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="javascript:;" class="text-decoration-none addtocart-btn" title="Избранное" onclick="favorite(this.id, 'set')" id="id_lot_{{ lot.id }}">
+                                            <i class="icons icon-heart"></i>
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'profile_create' %}" class="text-decoration-none addtocart-btn" title="Избранное">
+                                        <i class="icons icon-heart"></i>
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'account_login' %}" class="text-decoration-none addtocart-btn" title="Избранное">
+                                    <i class="icons icon-heart"></i>
+                                </a>
+                            {% endif %}
                         </div>
                         <a href="{% url 'lot_detail' lot.id %}">
                             <div class="product-thumb-info-image">
@@ -31,7 +50,23 @@
                             <a href="{% url 'category_detail' lot.category.id %}" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">{{ lot.category }}</a>
                             <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="{% url 'lot_detail' lot.id %}" class="text-color-dark text-color-hover-primary">{{ lot.title }}</a></h3>
                         </div>
-                        <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+
+                        {% if user.is_authenticated %}
+                            {% if user.profile %}
+                                {% if lot in user.profile.lot.all %}
+                                    <i class="fa fa-heart" id="id_heart_{{ lot.id }}" style="color:#0088CC;"></i>
+                                {% else %}
+                                    <i class="far fa-heart" id="id_heart_{{ lot.id }}"></i>
+                                {% endif %}
+                            {% else %}
+                                <i class="far fa-heart"></i>
+                            {% endif %}
+                        {% else %}
+                            <i class="far fa-heart"></i>
+                        {% endif %}
+
+                    
+                    
                     </div>
                     <p class="price text-5 mb-3">
                         <span class="sale text-color-dark font-weight-semi-bold">{{ lot.currency.symbol }}{{ lot.price }}</span>
@@ -54,4 +89,42 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    async function favorite(clicked_item, mode) {
+        let clicked_id = clicked_item.match(/\d+/)[0];
+        let heart = document.getElementById(`id_heart_${ clicked_id }`);
+        let lot = document.getElementById(`id_lot_${ clicked_id }`);
+        let request;
+
+        if (mode=='set') {
+            heart.className = 'fa fa-heart';
+            heart.style = "color:#0088CC;";
+            lot.onclick = function () { favorite(clicked_id, 'unset'); };
+
+            request = new Request(
+                `${clicked_id}/favorite/`,
+                {headers: {'X-CSRFToken': csrftoken}}
+            );
+        } else {
+            heart.className = 'far fa-heart';
+            heart.style = "color:#777;";
+            lot.onclick = function () { favorite(clicked_id, 'set'); };
+
+            request = new Request(
+                `${clicked_id}/unfavorite/`,
+                {headers: {'X-CSRFToken': csrftoken}}
+            );
+        }
+
+        let response = await fetch(request, {
+            method: 'POST',
+        });
+
+    }
+</script>
 {% endblock %}

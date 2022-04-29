@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import (
@@ -11,6 +11,7 @@ from django.views.generic import (
 
 from . import models
 from .forms import CategoryForm
+from personal.models import Profile
 
 
 class LotDetailView(DetailView):
@@ -109,6 +110,32 @@ class LotDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.request.user.profile.id})
+
+
+def lot_favorite(request, pk):
+    if request.method == 'GET':
+        raise Http404
+
+    if request.method == 'POST':
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        lot = models.Lot.objects.get(id=pk)
+        profile.lot.add(lot)
+
+        return JsonResponse({'status': 'OK'})
+
+
+def lot_unfavorite(request, pk):
+    if request.method == 'GET':
+        raise Http404
+
+    if request.method == 'POST':
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        lot = models.Lot.objects.get(id=pk)
+        profile.lot.remove(lot)
+
+        return JsonResponse({'status': 'OK'})
 
 
 class GalleryListView(ListView):
