@@ -4,579 +4,592 @@
 {% block market_content %}
 {% csrf_token %}
 <div class="row">
-	<div class="col-lg-6">
+    <div class="col-lg-6">
 
-		<div class="thumb-gallery-wrapper">
-			<div class="thumb-gallery-detail owl-carousel owl-theme manual nav-inside nav-style-1 nav-dark mb-3">
-				{% if lot.gallery_set.all %}
-					{% for item in lot.gallery_set.all %}
-						<div>
-							<img alt="{{ lot.title }}" class="img-fluid" src="{{ item.image.medium.url }}" data-zoom-image="{{ item.image.url }}">
-						</div>
-					{% endfor %}
-				{% else %}
-					<div>
-						<img alt="{{ lot.title }}" class="img-fluid" src="{% static 'img/no_image_large.png' %}">
-					</div>
-				{% endif %}
-			</div>
-			<div class="thumb-gallery-thumbs owl-carousel owl-theme manual thumb-gallery-thumbs">
-				{% for item in lot.gallery_set.all %}
-					<div class="cur-pointer">
-						<img alt="{{ lot.title }}" class="img-fluid" src="{{ item.image.medium.url }}">
-					</div>
-				{% endfor %}
-			</div>
-		</div>
+        <div class="thumb-gallery-wrapper">
+            <div class="thumb-gallery-detail owl-carousel owl-theme manual nav-inside nav-style-1 nav-dark mb-3">
+                {% if lot.gallery_set.all %}
+                    {% for item in lot.gallery_set.all %}
+                        <div class="d-flex align-items-center" style="aspect-ratio: 1/1;">
+                            <img alt="{{ lot.title }}" class="img-fluid" src="{{ item.image.square_medium.url }}" data-zoom-image="{{ item.image.url }}">
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div>
+                        <img alt="{{ lot.title }}" class="img-fluid" src="{% static 'img/no_image_large.png' %}">
+                    </div>
+                {% endif %}
+            </div>
+            <div class="thumb-gallery-thumbs owl-carousel owl-theme manual thumb-gallery-thumbs">
+                {% for item in lot.gallery_set.all %}
+                    <div class="cur-pointer">
+                        <img alt="{{ lot.title }}" class="img-fluid" src="{{ item.image.square_thumbnail.url }}">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 
-	</div>
+    </div>
 
-	<div class="col-lg-6">
+    <div class="col-lg-6">
 
-		<div class="summary entry-summary position-relative">
+        <div class="summary entry-summary position-relative">
 
-			<h1 class="mb-0 font-weight-bold text-7">{{ lot.title }}</h1>
+            <h1 class="mb-0 font-weight-bold text-7">{{ lot.title }}</h1>
 
-			<div class="divider divider-small">
-				<hr class="bg-color-grey-scale-4">
-			</div>
+            <p class="price py-2">
+                <span class="text-color-dark">{{ lot.currency.symbol }}{{ lot.price }}</span>
+            </p>
+            <p class="mb-1">
+                <span class="text-color-dark font-weight-bold text-3 text-uppercase">Контакты</span>
+            </p>
+            <p class="mb-1">
+                <span class="text-color-dark text-4">{{ lot.author }}</span>
+            </p>
+            <p class="mb-3">
+                <span class="text-color-dark text-4">{{ lot.author.profile.phone }}</span>
+            </p>
 
-			<p class="price mb-3">
-				<span class="sale text-color-dark">{{ lot.currency.symbol }}{{ lot.price }}</span>
-			</p>
+            <div class="d-flex align-items-center mb-3">
+                <ul class="social-icons social-icons-medium social-icons-clean-with-border social-icons-clean-with-border-border-grey social-icons-clean-with-border-icon-dark me-3 mb-0">
+                    <!-- Facebook -->
+                    <li class="social-icons-facebook">
+                        <a href="http://www.facebook.com/sharer.php?u={{ request.get_host }}{% url 'lot_detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <!-- Google+ -->
+                    <li class="social-icons-googleplus">
+                        <a href="https://plus.google.com/share?url={{ request.get_host }}{% url 'lot_detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Google+">
+                            <i class="fab fa-google-plus-g"></i>
+                        </a>
+                    </li>
+                    <!-- Twitter -->
+                    <li class="social-icons-twitter">
+                        <a href="https://twitter.com/share?url={{ request.get_host }}{% url 'lot_detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <!-- Email -->
+                    <li class="social-icons-email">
+                        <a href="mailto:?Subject={{ request.get_host }}{% url 'lot_detail' lot.id %}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share By Email">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--  Favorite -->
+                {% if user.is_authenticated %}
+                    {% if user.profile %}
+                        {% if lot in user.profile.lot.all %}
+                            <a href="javascript:;"
+                                class="d-flex align-items-center text-decoration-none text-color-primary text-color-hover-dark font-weight-semibold text-2"
+                                title="Избранное"
+                                onclick="favorite(this.id, 'unset')"
+                                id="id_lot_{{ lot.id }}"
+                            >
+                                <i class="fa fa-heart me-1" id="id_heart_{{ lot.id }}"></i> Избранное
+                            </a>
+                        {% else %}
+                            <a href="javascript:;"
+                                class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2"
+                                title="Избранное"
+                                onclick="favorite(this.id, 'set')"
+                                id="id_lot_{{ lot.id }}"
+                            >
+                                <i class="far fa-heart me-1" id="id_heart_{{ lot.id }}"></i> Избранное
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'profile_create' %}" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
+                            <i class="far fa-heart me-1"></i> Избранное
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
+                        <i class="far fa-heart me-1"></i> Избранное
+                    </a>
+                {% endif %}
+            </div>
 
-			<div class="d-flex align-items-center">
-				<ul class="social-icons social-icons-medium social-icons-clean-with-border social-icons-clean-with-border-border-grey social-icons-clean-with-border-icon-dark me-3 mb-0">
-					<!-- Facebook -->
-					<li class="social-icons-facebook">
-						<a href="http://www.facebook.com/sharer.php?u={{ request.get_host }}{% url 'lot_detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Facebook">
-							<i class="fab fa-facebook-f"></i>
-						</a>
-					</li>
-					<!-- Google+ -->
-					<li class="social-icons-googleplus">
-						<a href="https://plus.google.com/share?url={{ request.get_host }}{% url 'lot_detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Google+">
-							<i class="fab fa-google-plus-g"></i>
-						</a>
-					</li>
-					<!-- Twitter -->
-					<li class="social-icons-twitter">
-						<a href="https://twitter.com/share?url={{ request.get_host }}{% url 'lot_detail' lot.id %}" target="_blank" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share On Twitter">
-							<i class="fab fa-twitter"></i>
-						</a>
-					</li>
-					<!-- Email -->
-					<li class="social-icons-email">
-						<a href="mailto:?Subject={{ request.get_host }}{% url 'lot_detail' lot.id %}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="top" title="Share By Email">
-							<i class="far fa-envelope"></i>
-						</a>
-					</li>
-				</ul>
-				<!--  Favorite -->
-				{% if user.is_authenticated %}
-					{% if user.profile %}
-						{% if lot in user.profile.lot.all %}
-							<a href="javascript:;"
-								class="d-flex align-items-center text-decoration-none text-color-primary text-color-hover-dark font-weight-semibold text-2"
-								title="Избранное"
-								onclick="favorite(this.id, 'unset')"
-								id="id_lot_{{ lot.id }}"
-							>
-								<i class="fa fa-heart me-1" id="id_heart_{{ lot.id }}"></i> Избранное
-							</a>
-						{% else %}
-							<a href="javascript:;"
-								class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2"
-								title="Избранное"
-								onclick="favorite(this.id, 'set')"
-								id="id_lot_{{ lot.id }}"
-							>
-								<i class="far fa-heart me-1" id="id_heart_{{ lot.id }}"></i> Избранное
-							</a>
-						{% endif %}
-					{% else %}
-						<a href="{% url 'profile_create' %}" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
-							<i class="far fa-heart me-1"></i> Избранное
-						</a>
-					{% endif %}
-				{% else %}
-					<a href="{% url 'account_login' %}" class="d-flex align-items-center text-decoration-none text-color-dark text-color-hover-primary font-weight-semibold text-2">
-						<i class="far fa-heart me-1"></i> Избранное
-					</a>
-				{% endif %}
-			</div>
+            <div class="d-flex align-items-center">
+                <p>
+                    <span>Дата создания/обновления:</span><br>
+                    <span>{{ lot.created_at }}</span>
+                </p>
+            </div>
 
-			<div class="d-flex align-items-center">
-				<p>
-					<span>Дата создания/обновления:</span><br>
-					<span>{{ lot.created_at }}</span>
-				</p>
-			</div>
+        </div>
 
-		</div>
-
-	</div>
+    </div>
 </div>
 
 <div class="row">
-	<div class="col">
-		<div id="description" class="tabs tabs-simple tabs-simple-full-width-line tabs-product tabs-dark mb-2">
-			<ul class="nav nav-tabs justify-content-start">
-				<li class="nav-item"><a class="nav-link active font-weight-bold text-3 text-uppercase py-2 px-3" href="#productDescription" data-bs-toggle="tab">Описание</a></li>
-				<li class="nav-item"><a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="#productInfo" data-bs-toggle="tab">Дополнительная информация</a></li>
-				<li class="nav-item"><a class="nav-link nav-link-reviews font-weight-bold text-3 text-uppercase py-2 px-3" href="#productReviews" data-bs-toggle="tab">Отзывы</a></li>
-			</ul>
-			<div class="tab-content p-0">
-				<div class="tab-pane px-0 py-3 active" id="productDescription">
-					<p>{{ lot.description }}</p>
-				</div>
-				<div class="tab-pane px-0 py-3" id="productInfo">
-					<table class="table table-striped m-0">
-						<tbody>
-							{% if lot.extra_fields %}
-								{% for key, value in lot.extra_fields.items %}
-									<tr>
-										<th class="border-top-0">
-											{{ key }}
-										</th>
-										<td class="border-top-0">
-											{{ value }}
-										</td>
-									</tr>
-								{% endfor %}
-							{% endif %}
-						</tbody>
-					</table>
-				</div>
-				<div class="tab-pane px-0 py-3" id="productReviews">
-					<ul class="comments">
-						<li>
-							<div class="comment">
-								<div class="img-thumbnail border-0 p-0 d-none d-md-block">
-									<img class="avatar rounded-circle" alt="" src="img/avatars/avatar-2.jpg">
-								</div>
-								<div class="comment-block">
-									<div class="comment-arrow"></div>
-									<span class="comment-by">
-										<strong>Jack Doe</strong>
-										<span class="float-end">
-											<div class="pb-0 clearfix">
-												<div title="Rated 3 out of 5" class="float-start">
-													<input type="text" class="d-none" value="3" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'primary', 'size':'xs'}">
-												</div>
+    <div class="col">
+        <div id="description" class="tabs tabs-simple tabs-simple-full-width-line tabs-product tabs-dark mb-2">
+            <ul class="nav nav-tabs justify-content-start">
+                <li class="nav-item"><a class="nav-link active font-weight-bold text-3 text-uppercase py-2 px-3" href="#productDescription" data-bs-toggle="tab">Описание</a></li>
+                <li class="nav-item"><a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="#productInfo" data-bs-toggle="tab">Дополнительная информация</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-reviews font-weight-bold text-3 text-uppercase py-2 px-3" href="#productReviews" data-bs-toggle="tab">Отзывы</a></li>
+            </ul>
+            <div class="tab-content p-0">
+                <div class="tab-pane px-0 py-3 active" id="productDescription">
+                    <p>{{ lot.description }}</p>
+                </div>
+                <div class="tab-pane px-0 py-3" id="productInfo">
+                    <table class="table table-striped m-0">
+                        <tbody>
+                            {% if lot.extra_fields %}
+                                {% for key, value in lot.extra_fields.items %}
+                                    <tr>
+                                        <th class="border-top-0">
+                                            {{ key }}
+                                        </th>
+                                        <td class="border-top-0">
+                                            {{ value }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane px-0 py-3" id="productReviews">
+                    <ul class="comments">
+                        <li>
+                            <div class="comment">
+                                <div class="img-thumbnail border-0 p-0 d-none d-md-block">
+                                    <img class="avatar rounded-circle" alt="" src="img/avatars/avatar-2.jpg">
+                                </div>
+                                <div class="comment-block">
+                                    <div class="comment-arrow"></div>
+                                    <span class="comment-by">
+                                        <strong>Jack Doe</strong>
+                                        <span class="float-end">
+                                            <div class="pb-0 clearfix">
+                                                <div title="Rated 3 out of 5" class="float-start">
+                                                    <input type="text" class="d-none" value="3" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'primary', 'size':'xs'}">
+                                                </div>
 
-												<div class="review-num">
-													<span class="count" itemprop="ratingCount">2</span> reviews
-												</div>
-											</div>
-										</span>
-									</span>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae, gravida pellentesque urna varius vitae.</p>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="comment">
-								<div class="img-thumbnail border-0 p-0 d-none d-md-block">
-									<img class="avatar rounded-circle" alt="" src="img/avatars/avatar.jpg">
-								</div>
-								<div class="comment-block">
-									<div class="comment-arrow"></div>
-									<span class="comment-by">
-										<strong>John Doe</strong>
-										<span class="float-end">
-											<div class="pb-0 clearfix">
-												<div title="Rated 3 out of 5" class="float-start">
-													<input type="text" class="d-none" value="3" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'primary', 'size':'xs'}">
-												</div>
+                                                <div class="review-num">
+                                                    <span class="count" itemprop="ratingCount">2</span> reviews
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </span>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae, gravida pellentesque urna varius vitae.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="comment">
+                                <div class="img-thumbnail border-0 p-0 d-none d-md-block">
+                                    <img class="avatar rounded-circle" alt="" src="img/avatars/avatar.jpg">
+                                </div>
+                                <div class="comment-block">
+                                    <div class="comment-arrow"></div>
+                                    <span class="comment-by">
+                                        <strong>John Doe</strong>
+                                        <span class="float-end">
+                                            <div class="pb-0 clearfix">
+                                                <div title="Rated 3 out of 5" class="float-start">
+                                                    <input type="text" class="d-none" value="3" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'primary', 'size':'xs'}">
+                                                </div>
 
-												<div class="review-num">
-													<span class="count" itemprop="ratingCount">2</span> reviews
-												</div>
-											</div>
-										</span>
-									</span>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra odio, gravida urna varius vitae, gravida pellentesque urna varius vitae.</p>
-								</div>
-							</div>
-						</li>
-					</ul>
-					<hr class="solid my-5">
-					<h4>Add a review</h4>
-					<div class="row">
-						<div class="col">
+                                                <div class="review-num">
+                                                    <span class="count" itemprop="ratingCount">2</span> reviews
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </span>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra odio, gravida urna varius vitae, gravida pellentesque urna varius vitae.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <hr class="solid my-5">
+                    <h4>Add a review</h4>
+                    <div class="row">
+                        <div class="col">
 
-							<form action="" id="submitReview" method="post">
-								<div class="row">
-									<div class="form-group col pb-2">
-										<label class="form-label required font-weight-bold text-dark">Rating</label>
-										<input type="text" class="rating-loading" value="0" title="" data-plugin-star-rating data-plugin-options="{'color': 'primary', 'size':'sm'}">
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-lg-6">
-										<label class="form-label required font-weight-bold text-dark">Name</label>
-										<input type="text" value="" data-msg-required="Please enter your name." maxlength="100" class="form-control" name="name" required>
-									</div>
-									<div class="form-group col-lg-6">
-										<label class="form-label required font-weight-bold text-dark">Email Address</label>
-										<input type="email" value="" data-msg-required="Please enter your email address." data-msg-email="Please enter a valid email address." maxlength="100" class="form-control" name="email" required>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col">
-										<label class="form-label required font-weight-bold text-dark">Review</label>
-										<textarea maxlength="5000" data-msg-required="Please enter your review." rows="8" class="form-control" name="review" id="review" required></textarea>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col mb-0">
-										<input type="submit" value="Post Review" class="btn btn-primary btn-modern" data-loading-text="Loading...">
-									</div>
-								</div>
-							</form>
-						</div>
+                            <form action="" id="submitReview" method="post">
+                                <div class="row">
+                                    <div class="form-group col pb-2">
+                                        <label class="form-label required font-weight-bold text-dark">Rating</label>
+                                        <input type="text" class="rating-loading" value="0" title="" data-plugin-star-rating data-plugin-options="{'color': 'primary', 'size':'sm'}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label class="form-label required font-weight-bold text-dark">Name</label>
+                                        <input type="text" value="" data-msg-required="Please enter your name." maxlength="100" class="form-control" name="name" required>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label class="form-label required font-weight-bold text-dark">Email Address</label>
+                                        <input type="email" value="" data-msg-required="Please enter your email address." data-msg-email="Please enter a valid email address." maxlength="100" class="form-control" name="email" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label class="form-label required font-weight-bold text-dark">Review</label>
+                                        <textarea maxlength="5000" data-msg-required="Please enter your review." rows="8" class="form-control" name="review" id="review" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col mb-0">
+                                        <input type="submit" value="Post Review" class="btn btn-primary btn-modern" data-loading-text="Loading...">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
 
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
 <hr class="solid my-5">
+{% if lot.video_url %}
+    <p class="mb-1">
+        <span class="text-color-dark font-weight-bold text-3 text-uppercase">Видео</span>
+    </p>
+
+    <input type="hidden" value="{{ lot.video_url }}" id="id_yt_url">
+    <div id="ytplayer"></div>
+    <hr class="solid my-5">
+{% endif %}
 
 <h4 class="mb-3">Related <strong>Products</strong></h4>
 <div class="products row">
-	<div class="col">
-		<div class="owl-carousel owl-theme show-nav-title nav-dark mb-0" data-plugin-options="{'loop': false, 'autoplay': false,'items': 4, 'nav': true, 'dots': false, 'margin': 20, 'autoplayHoverPause': true, 'autoHeight': true}">
+    <div class="col">
+        <div class="owl-carousel owl-theme show-nav-title nav-dark mb-0" data-plugin-options="{'loop': false, 'autoplay': false,'items': 4, 'nav': true, 'dots': false, 'margin': 20, 'autoplayHoverPause': true, 'autoHeight': true}">
 
-			<div class="product mb-0">
-				<div class="product-thumb-info border-0 mb-3">
+            <div class="product mb-0">
+                <div class="product-thumb-info border-0 mb-3">
 
-					<div class="product-thumb-info-badges-wrapper">
+                    <div class="product-thumb-info-badges-wrapper">
 <span class="badge badge-ecommerce badge-success">NEW</span>
 
-					</div>
+                    </div>
 
-					<div class="addtocart-btn-wrapper">
-						<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-							<i class="icons icon-bag"></i>
-						</a>
-					</div>
-					<a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-						QUICK VIEW
-					</a>
-					<a href="shop-product-sidebar-left.html">
-						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                    <div class="addtocart-btn-wrapper">
+                        <a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+                            <i class="icons icon-bag"></i>
+                        </a>
+                    </div>
+                    <a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+                        QUICK VIEW
+                    </a>
+                    <a href="shop-product-sidebar-left.html">
+                        <div class="product-thumb-info-image">
+                            <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-						</div>
-					</a>
-				</div>
-				<div class="d-flex justify-content-between">
-					<div>
-						<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">electronics</a>
-						<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Photo Camera</a></h3>
-					</div>
-					<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-				</div>
-				<div title="Rated 5 out of 5">
-					<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-				</div>
-				<p class="price text-5 mb-3">
-					<span class="sale text-color-dark font-weight-semi-bold">$69,00</span>
-					<span class="amount">$59,00</span>
-				</p>
-			</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">electronics</a>
+                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Photo Camera</a></h3>
+                    </div>
+                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                </div>
+                <div title="Rated 5 out of 5">
+                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                </div>
+                <p class="price text-5 mb-3">
+                    <span class="sale text-color-dark font-weight-semi-bold">$69,00</span>
+                    <span class="amount">$59,00</span>
+                </p>
+            </div>
 
-			<div class="product mb-0">
-				<div class="product-thumb-info border-0 mb-3">
+            <div class="product mb-0">
+                <div class="product-thumb-info border-0 mb-3">
 
-					<div class="product-thumb-info-badges-wrapper">
+                    <div class="product-thumb-info-badges-wrapper">
 <span class="badge badge-ecommerce badge-success">NEW</span>
 <span class="badge badge-ecommerce badge-danger">27% OFF</span>
-					</div>
+                    </div>
 
-					<div class="addtocart-btn-wrapper">
-						<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-							<i class="icons icon-bag"></i>
-						</a>
-					</div>
-					<a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-						QUICK VIEW
-					</a>
-					<a href="shop-product-sidebar-left.html">
-						<div class="product-thumb-info-image product-thumb-info-image-effect">
-							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                    <div class="addtocart-btn-wrapper">
+                        <a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+                            <i class="icons icon-bag"></i>
+                        </a>
+                    </div>
+                    <a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+                        QUICK VIEW
+                    </a>
+                    <a href="shop-product-sidebar-left.html">
+                        <div class="product-thumb-info-image product-thumb-info-image-effect">
+                            <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-								<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                                <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-						</div>
-					</a>
-				</div>
-				<div class="d-flex justify-content-between">
-					<div>
-						<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
-						<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Porto Headphone</a></h3>
-					</div>
-					<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-				</div>
-				<div title="Rated 5 out of 5">
-					<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-				</div>
-				<p class="price text-5 mb-3">
-					<span class="sale text-color-dark font-weight-semi-bold">$199,00</span>
-					<span class="amount">$99,00</span>
-				</p>
-			</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
+                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Porto Headphone</a></h3>
+                    </div>
+                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                </div>
+                <div title="Rated 5 out of 5">
+                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                </div>
+                <p class="price text-5 mb-3">
+                    <span class="sale text-color-dark font-weight-semi-bold">$199,00</span>
+                    <span class="amount">$99,00</span>
+                </p>
+            </div>
 
-			<div class="product mb-0">
-				<div class="product-thumb-info border-0 mb-3">
+            <div class="product mb-0">
+                <div class="product-thumb-info border-0 mb-3">
 
-					<div class="addtocart-btn-wrapper">
-						<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-							<i class="icons icon-bag"></i>
-						</a>
-					</div>
-					<a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-						QUICK VIEW
-					</a>
-					<a href="shop-product-sidebar-left.html">
-						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                    <div class="addtocart-btn-wrapper">
+                        <a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+                            <i class="icons icon-bag"></i>
+                        </a>
+                    </div>
+                    <a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+                        QUICK VIEW
+                    </a>
+                    <a href="shop-product-sidebar-left.html">
+                        <div class="product-thumb-info-image">
+                            <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-						</div>
-					</a>
-				</div>
-				<div class="d-flex justify-content-between">
-					<div>
-						<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">sports</a>
-						<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Golf Bag</a></h3>
-					</div>
-					<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-				</div>
-				<div title="Rated 5 out of 5">
-					<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-				</div>
-				<p class="price text-5 mb-3">
-					<span class="sale text-color-dark font-weight-semi-bold">$29,00</span>
-					<span class="amount">$19,00</span>
-				</p>
-			</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">sports</a>
+                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Golf Bag</a></h3>
+                    </div>
+                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                </div>
+                <div title="Rated 5 out of 5">
+                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                </div>
+                <p class="price text-5 mb-3">
+                    <span class="sale text-color-dark font-weight-semi-bold">$29,00</span>
+                    <span class="amount">$19,00</span>
+                </p>
+            </div>
 
-			<div class="product mb-0">
-				<div class="product-thumb-info border-0 mb-3">
+            <div class="product mb-0">
+                <div class="product-thumb-info border-0 mb-3">
 
-					<div class="product-thumb-info-badges-wrapper">
+                    <div class="product-thumb-info-badges-wrapper">
 
 <span class="badge badge-ecommerce badge-danger">27% OFF</span>
-					</div>
+                    </div>
 
-					<div class="addtocart-btn-wrapper">
-						<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-							<i class="icons icon-bag"></i>
-						</a>
-					</div>
-					<a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-						QUICK VIEW
-					</a>
-					<a href="shop-product-sidebar-left.html">
-						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                    <div class="addtocart-btn-wrapper">
+                        <a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+                            <i class="icons icon-bag"></i>
+                        </a>
+                    </div>
+                    <a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+                        QUICK VIEW
+                    </a>
+                    <a href="shop-product-sidebar-left.html">
+                        <div class="product-thumb-info-image">
+                            <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-						</div>
-					</a>
-				</div>
-				<div class="d-flex justify-content-between">
-					<div>
-						<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">sports</a>
-						<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Workout</a></h3>
-					</div>
-					<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-				</div>
-				<div title="Rated 5 out of 5">
-					<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-				</div>
-				<p class="price text-5 mb-3">
-					<span class="sale text-color-dark font-weight-semi-bold">$40,00</span>
-					<span class="amount">$30,00</span>
-				</p>
-			</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">sports</a>
+                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Workout</a></h3>
+                    </div>
+                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                </div>
+                <div title="Rated 5 out of 5">
+                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                </div>
+                <p class="price text-5 mb-3">
+                    <span class="sale text-color-dark font-weight-semi-bold">$40,00</span>
+                    <span class="amount">$30,00</span>
+                </p>
+            </div>
 
-			<div class="product mb-0">
-				<div class="product-thumb-info border-0 mb-3">
+            <div class="product mb-0">
+                <div class="product-thumb-info border-0 mb-3">
 
-					<div class="addtocart-btn-wrapper">
-						<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-							<i class="icons icon-bag"></i>
-						</a>
-					</div>
-					<a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-						QUICK VIEW
-					</a>
-					<a href="shop-product-sidebar-left.html">
-						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                    <div class="addtocart-btn-wrapper">
+                        <a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+                            <i class="icons icon-bag"></i>
+                        </a>
+                    </div>
+                    <a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+                        QUICK VIEW
+                    </a>
+                    <a href="shop-product-sidebar-left.html">
+                        <div class="product-thumb-info-image">
+                            <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-						</div>
-					</a>
-				</div>
-				<div class="d-flex justify-content-between">
-					<div>
-						<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
-						<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Luxury Bag</a></h3>
-					</div>
-					<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-				</div>
-				<div title="Rated 5 out of 5">
-					<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-				</div>
-				<p class="price text-5 mb-3">
-					<span class="sale text-color-dark font-weight-semi-bold">$99,00</span>
-					<span class="amount">$79,00</span>
-				</p>
-			</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
+                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Luxury Bag</a></h3>
+                    </div>
+                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                </div>
+                <div title="Rated 5 out of 5">
+                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                </div>
+                <p class="price text-5 mb-3">
+                    <span class="sale text-color-dark font-weight-semi-bold">$99,00</span>
+                    <span class="amount">$79,00</span>
+                </p>
+            </div>
 
-			<div class="product mb-0">
-				<div class="product-thumb-info border-0 mb-3">
+            <div class="product mb-0">
+                <div class="product-thumb-info border-0 mb-3">
 
-					<div class="addtocart-btn-wrapper">
-						<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-							<i class="icons icon-bag"></i>
-						</a>
-					</div>
-					<a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-						QUICK VIEW
-					</a>
-					<a href="shop-product-sidebar-left.html">
-						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                    <div class="addtocart-btn-wrapper">
+                        <a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+                            <i class="icons icon-bag"></i>
+                        </a>
+                    </div>
+                    <a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+                        QUICK VIEW
+                    </a>
+                    <a href="shop-product-sidebar-left.html">
+                        <div class="product-thumb-info-image">
+                            <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-						</div>
-					</a>
-				</div>
-				<div class="d-flex justify-content-between">
-					<div>
-						<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
-						<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Styled Bag</a></h3>
-					</div>
-					<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-				</div>
-				<div title="Rated 5 out of 5">
-					<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-				</div>
-				<p class="price text-5 mb-3">
-					<span class="sale text-color-dark font-weight-semi-bold">$199,00</span>
-					<span class="amount">$119,00</span>
-				</p>
-			</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
+                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Styled Bag</a></h3>
+                    </div>
+                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                </div>
+                <div title="Rated 5 out of 5">
+                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                </div>
+                <p class="price text-5 mb-3">
+                    <span class="sale text-color-dark font-weight-semi-bold">$199,00</span>
+                    <span class="amount">$119,00</span>
+                </p>
+            </div>
 
-			<div class="product mb-0">
-				<div class="product-thumb-info border-0 mb-3">
+            <div class="product mb-0">
+                <div class="product-thumb-info border-0 mb-3">
 
-					<div class="addtocart-btn-wrapper">
-						<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-							<i class="icons icon-bag"></i>
-						</a>
-					</div>
-					<a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-						QUICK VIEW
-					</a>
-					<a href="shop-product-sidebar-left.html">
-						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                    <div class="addtocart-btn-wrapper">
+                        <a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+                            <i class="icons icon-bag"></i>
+                        </a>
+                    </div>
+                    <a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+                        QUICK VIEW
+                    </a>
+                    <a href="shop-product-sidebar-left.html">
+                        <div class="product-thumb-info-image">
+                            <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-						</div>
-					</a>
-				</div>
-				<div class="d-flex justify-content-between">
-					<div>
-						<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">hat</a>
-						<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Blue Hat</a></h3>
-					</div>
-					<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-				</div>
-				<div title="Rated 5 out of 5">
-					<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-				</div>
-				<p class="price text-5 mb-3">
-					<span class="sale text-color-dark font-weight-semi-bold">$299,00</span>
-					<span class="amount">$289,00</span>
-				</p>
-			</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">hat</a>
+                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Blue Hat</a></h3>
+                    </div>
+                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                </div>
+                <div title="Rated 5 out of 5">
+                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                </div>
+                <p class="price text-5 mb-3">
+                    <span class="sale text-color-dark font-weight-semi-bold">$299,00</span>
+                    <span class="amount">$289,00</span>
+                </p>
+            </div>
 
-			<div class="product mb-0">
-				<div class="product-thumb-info border-0 mb-3">
+            <div class="product mb-0">
+                <div class="product-thumb-info border-0 mb-3">
 
-					<div class="addtocart-btn-wrapper">
-						<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-							<i class="icons icon-bag"></i>
-						</a>
-					</div>
-					<a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-						QUICK VIEW
-					</a>
-					<a href="shop-product-sidebar-left.html">
-						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                    <div class="addtocart-btn-wrapper">
+                        <a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+                            <i class="icons icon-bag"></i>
+                        </a>
+                    </div>
+                    <a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+                        QUICK VIEW
+                    </a>
+                    <a href="shop-product-sidebar-left.html">
+                        <div class="product-thumb-info-image">
+                            <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-						</div>
-					</a>
-				</div>
-				<div class="d-flex justify-content-between">
-					<div>
-						<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
-						<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Adventurer Bag</a></h3>
-					</div>
-					<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-				</div>
-				<div title="Rated 5 out of 5">
-					<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-				</div>
-				<p class="price text-5 mb-3">
-					<span class="sale text-color-dark font-weight-semi-bold">$99,00</span>
-					<span class="amount">$79,00</span>
-				</p>
-			</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">accessories</a>
+                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Adventurer Bag</a></h3>
+                    </div>
+                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                </div>
+                <div title="Rated 5 out of 5">
+                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                </div>
+                <p class="price text-5 mb-3">
+                    <span class="sale text-color-dark font-weight-semi-bold">$99,00</span>
+                    <span class="amount">$79,00</span>
+                </p>
+            </div>
 
-			<div class="product mb-0">
-				<div class="product-thumb-info border-0 mb-3">
+            <div class="product mb-0">
+                <div class="product-thumb-info border-0 mb-3">
 
-					<div class="addtocart-btn-wrapper">
-						<a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
-							<i class="icons icon-bag"></i>
-						</a>
-					</div>
-					<a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
-						QUICK VIEW
-					</a>
-					<a href="shop-product-sidebar-left.html">
-						<div class="product-thumb-info-image">
-							<img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
+                    <div class="addtocart-btn-wrapper">
+                        <a href="shop-cart.html" class="text-decoration-none addtocart-btn" title="Add to Cart">
+                            <i class="icons icon-bag"></i>
+                        </a>
+                    </div>
+                    <a href="ajax/shop-product-quick-view.html" class="quick-view text-uppercase font-weight-semibold text-2">
+                        QUICK VIEW
+                    </a>
+                    <a href="shop-product-sidebar-left.html">
+                        <div class="product-thumb-info-image">
+                            <img alt="" class="img-fluid" src="{% static 'img/no_image_medium.png' %}">
 
-						</div>
-					</a>
-				</div>
-				<div class="d-flex justify-content-between">
-					<div>
-						<a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">sports</a>
-						<h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Baseball Ball</a></h3>
-					</div>
-					<a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
-				</div>
-				<div title="Rated 5 out of 5">
-					<input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-				</div>
-				<p class="price text-5 mb-3">
-					<span class="sale text-color-dark font-weight-semi-bold">$399,00</span>
-					<span class="amount">$299,00</span>
-				</p>
-			</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">sports</a>
+                        <h3 class="text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0"><a href="shop-product-sidebar-right.html" class="text-color-dark text-color-hover-primary">Baseball Ball</a></h3>
+                    </div>
+                    <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4"><i class="far fa-heart"></i></a>
+                </div>
+                <div title="Rated 5 out of 5">
+                    <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+                </div>
+                <p class="price text-5 mb-3">
+                    <span class="sale text-color-dark font-weight-semi-bold">$399,00</span>
+                    <span class="amount">$299,00</span>
+                </p>
+            </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -615,5 +628,29 @@
         });
 
     }
+
+
+    // Load the IFrame Player API code asynchronously.
+    let tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/player_api";
+    let firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
+    let video_url = document.getElementById('id_yt_url').value;
+    let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    let match = video_url.match(regExp);
+    let video_id = (match&&match[7].length==11)? match[7] : false;
+    
+    // Replace the 'ytplayer' element with an <iframe> and
+    // YouTube player after the API code downloads.
+    let player;
+    function onYouTubePlayerAPIReady() {
+        player = new YT.Player('ytplayer', {
+        height: '360',
+        width: '640',
+        videoId: video_id
+        });
+    }
+      
 </script>
 {% endblock %}

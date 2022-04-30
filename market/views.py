@@ -27,6 +27,7 @@ class LotDetailView(DetailView):
 class LotListView(ListView):
     """Представление для списка объявлений"""
     model = models.Lot
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super(LotListView, self).get_context_data(**kwargs)
@@ -98,8 +99,11 @@ class LotCreateView(CreateView):
         context = super().get_context_data(**kwargs)
 
         category_id = self.request.session['category_id']
-        extra_fields = models.ExtraField.objects.get(category=category_id)
-        context['extra_fields'] = extra_fields
+        try:
+            extra_fields = models.ExtraField.objects.get(category=category_id)
+            context['extra_fields'] = extra_fields
+        except models.ExtraField.DoesNotExist:
+            context['extra_fields'] = ''
 
         return context
 

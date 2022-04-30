@@ -175,7 +175,9 @@ class Gallery(models.Model):
         null=True,
         blank=True,
         variations={
-            'medium': (336, 336)
+            'medium': (336, 336),
+            'square_thumbnail': (336, 336, True),
+            'square_medium': (696, 696, True),
         },
         delete_orphans=True
     )

@@ -37,7 +37,23 @@
                             class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3"
                             data-loading-text="Loading..."
                             onclick="submit()"
-                            value="Добавить">
+                            value="Добавить фото">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col">
+                    <a class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3"
+                        href="{% url 'lot_create' %}"
+                    >Добавить еще одно объявление</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col">
+                    <a class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3"
+                        href="{% url 'index' %}"
+                    >На главную</a>
                 </div>
             </div>
 
