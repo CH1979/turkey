@@ -19,6 +19,9 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from django.urls import path, include
 
+from machina import urls as machina_urls
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
@@ -26,6 +29,7 @@ urlpatterns = [
         'accounts/profile/',
         include('personal.urls')
     ),
+    path('forum/', include(machina_urls)),
     path('market/', include('market.urls')),
     path('treewidget/', include('treewidget.urls')),
     path(

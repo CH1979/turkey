@@ -1,5 +1,7 @@
+{% load i18n %}
+
 <!DOCTYPE html>
-<html>
+<html {% get_current_language as LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}">
     {% load static %}
 	<head>
 
@@ -62,7 +64,19 @@
 
 		<div class="body">
 			{% include "header.html" %}
-			{% block content %}{% endblock %}
+			
+			{% block forum_header %}
+			{% endblock forum_header %}
+			
+			{% block forum_content_up %}
+			{% endblock forum_content_up %}
+
+			{% block content %}
+			{% endblock %}
+
+			{% block forum_content_down %}
+			{% endblock forum_content_down %}
+			
 			{% include "footer.html" %}
 		</div>
 

@@ -7,10 +7,18 @@
     <div class="row">
         <div class="col-lg-3">
             <aside class="sidebar">
-                <h5 class="font-weight-semi-bold pt-3">Профиль пользователя</h5>
-                {{ profile.avatar.medium.url }}
-                <p>{{ profile }}</p>
-                <p>{{ profile.phone }}</p>
+                <div class="row">
+                    <h5 class="font-weight-semi-bold text-center pt-3">Профиль пользователя</h5>
+                    <div class="text-center">
+                        <img class="img-thumbnail" src="{{ profile.user.forum_profile.avatar.url }}">
+                    </div>
+                    <div class="text-center pt-3">
+                        <p>{{ profile }}</p>
+                    </div>
+                    <div class="text-center">
+                        <p>{{ profile.phone }}</p>
+                    </div>
+                </div>
             </aside>
         </div>
         <div class="col-lg-9">
@@ -59,6 +67,8 @@
                                                     </a>
                                                 </td>
                                             </tr>
+                                        {% empty %}
+                                            Список объявлений пуст
                                         {% endfor %}
                                     </tbody>
                                 </table>
@@ -92,14 +102,34 @@
                             <div class="tab-pane px-0 py-3" id="myTopics">
                                 <table class="table table-striped m-0">
                                     <tbody>
-                                        Список тем пуст
+                                        {% for topic in profile.user.topic_set.all %}
+                                            <tr class="border-top-0">
+                                                <th>
+                                                    <a href="{% url 'forum_conversation:topic' topic.forum.slug topic.forum.pk topic.slug topic.pk %}">
+                                                        {{ topic }}
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        {% empty %}
+                                            Список тем пуст
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
                             <div class="tab-pane px-0 py-3" id="favoriteTopics">
                                 <table class="table table-striped m-0">
                                     <tbody>
-                                        Список тем пуст
+                                        {% for topic in profile.user.topic_subscriptions.all %}
+                                            <tr class="border-top-0">
+                                                <th>
+                                                    <a href="{% url 'forum_conversation:topic' topic.forum.slug topic.forum.pk topic.slug topic.pk %}">
+                                                        {{ topic }}
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        {% empty %}
+                                            Список тем пуст
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

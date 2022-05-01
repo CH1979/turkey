@@ -105,7 +105,7 @@
                         </div>
                         <div class="header-nav-features header-nav-features-no-border col-lg-5 col-xl-6 px-0 ms-0">
                             <div class="header-nav-feature ps-lg-5 pe-lg-4">
-                                <form role="search" action="page-search-results.html" method="get">
+                                <form role="search" action="{% url 'forum_search:search' %}">
                                     <div class="search-with-select">
                                         <a href="#" class="mobile-search-toggle-btn me-2" data-porto-toggle-class="open">
                                             <i class="icons icon-magnifier text-color-dark text-color-hover-primary"></i>
@@ -203,8 +203,15 @@
                                                 </a>
                                             </li>
                                             <li class="dropdown">
-                                                <a href="#" class="dropdown-item">
+                                                <a href="{% url 'forum:index' %}" class="dropdown-item">
                                                     Форум
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="nav nav-pills">
+                                            <li class="dropdown">
+                                                <a class="" href="{% url 'forum_search:search' %}">
+                                                    Поиск
                                                 </a>
                                             </li>
                                         </ul>

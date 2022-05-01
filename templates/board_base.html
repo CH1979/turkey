@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load forum_permission_tags %}
+
+
+{% block forum_header %}
+{% endblock forum_header %}
+
+{% block forum_content_up %}
+<div role="main" class="main pt-4">
+
+  <div class="container">
+
+      <div class="row">
+          <div class="col-12 d-flex justify-content-between">
+            <div>
+            {% block breadcrumb %}{% include "partials/breadcrumb.html" %}{% endblock breadcrumb %}
+            </div>
+            <div class="controls-link-wrapper">
+            {% spaceless %}
+            {% if not request.user.is_anonymous %}
+              <a href="{% url 'forum_member:user_subscriptions' %}" class="d-inline-block px-1"><i class="fas fa-bookmark">&nbsp;</i>Подписки</a>
+              <a href="{% url 'forum_member:user_posts' request.user.id %}" class="d-inline-block px-1"><i class="fas fa-comments">&nbsp;</i>Мои сообщения</a>
+            {% endif %}
+            {% get_permission 'can_access_moderation_queue' request.user as can_access_moderation_queue %}
+            {% if can_access_moderation_queue %}
+              <a href="{% url 'forum_moderation:queue' %}" class="d-inline-block px-1"><i class="fas fa-gavel">&nbsp;</i>Модерация</a>
+            {% endif %}
+            {% endspaceless %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <br />
+            {% block messages %}{% include "partials/messages.html" %}{% endblock messages %}
+          </div>
+        </div>
+      {% endblock forum_content_up %}
+
+      {% block content %}
+      {% endblock content %}
+
+{% block forum_content_down %}
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'js/machina.packages.min.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'js/machina.min.js' %}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  $(function() {
+    machina.init();
+    {% block onbodyload %}{% endblock onbodyload %}
+  });
+</script>
+{% endblock scripts %}
