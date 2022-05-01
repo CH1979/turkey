@@ -12,5 +12,6 @@ yarn-error.log
 kwork/
 media/
 static/
+whoosh_index/
 
 settings.prod.py

@@ -223,3 +223,10 @@ SOCIALACCOUNT_PROVIDERS = {
 # Django-machina forum
 
 MACHINA_FORUM_NAME = 'Turkey24.info форум'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': BASE_DIR / 'whoosh_index',
+    },
+}

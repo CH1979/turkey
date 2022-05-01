@@ -7,3 +7,4 @@ django-treebeard==4.5.1
 django-treewidget==0.4.2
 pillow==9.1.0
 psycopg2-binary==2.9.3
+whoosh~=2.7
