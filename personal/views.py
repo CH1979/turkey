@@ -12,7 +12,7 @@ class ProfileDetailView(DetailView):
 
 class ProfileCreateView(CreateView):
     model = Profile
-    fields = ('avatar', 'phone')
+    fields = ('phone')
 
     def form_valid(self, form):
         form.instance.user = self.request.user

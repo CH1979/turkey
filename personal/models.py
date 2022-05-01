@@ -4,7 +4,6 @@ from uuid import uuid4
 from django.contrib.auth.models import User
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-from stdimage import StdImageField
 from treebeard.mp_tree import MP_Node
 from treewidget.fields import TreeForeignKey
 
@@ -30,16 +29,6 @@ class Profile(models.Model):
         null=False,
         blank=False,
         on_delete=models.CASCADE
-    )
-    avatar = StdImageField(
-        verbose_name='аватар',
-        upload_to=image_rename,
-        null=True,
-        blank=True,
-        variations={
-            'medium': (336, 336)
-        },
-        delete_orphans=True
     )
     phone = PhoneNumberField(
         verbose_name='номер телефона',
