@@ -32,6 +32,7 @@ urlpatterns = [
     path('forum/', include(machina_urls)),
     path('market/', include('market.urls')),
     path('treewidget/', include('treewidget.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path(
         '',
         RedirectView.as_view(pattern_name='market', permanent=False),

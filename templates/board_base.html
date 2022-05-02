@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load forum_permission_tags %}
 
+{% block css %}
+  {{ block.super }}
+  {{ post_form.media.css }}
+{% endblock css %}
 
 {% block forum_header %}
 {% endblock forum_header %}
@@ -49,8 +53,12 @@
 </div>
 {% endblock %}
 
-{% block scripts %}
+{% block js %}
+{{ block.super }}
+{{ post_form.media.js }}
+{% endblock %}
 
+{% block scripts %}
 <script src="{% static 'js/machina.packages.min.js' %}" type="text/javascript" charset="utf-8"></script>
 <script src="{% static 'js/machina.min.js' %}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">

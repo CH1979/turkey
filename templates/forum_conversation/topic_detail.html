@@ -7,7 +7,9 @@
 {% block sub_title %}{{ topic.subject }}{% endblock sub_title %}
 
 {% block content %}
-<div class="row"><div class="col-12"><h1>{{ topic.subject }}</h1></div></div>
+
+<!-- topic_detail.html -->
+<div class="row"><div class="col-12"><h1 class="mb-0 font-weight-bold text-7">{{ topic.subject }}</h1></div></div>
 <div class="row">
   <div class="col-12 col-md-4 topic-actions-block">
   {% include "forum_conversation/partials/topic_detail_actions.html" %}
@@ -24,8 +26,8 @@
     {% if forloop.first and post.is_topic_head and poll %}
     {% include "forum_conversation/forum_polls/poll_detail.html" %}
     {% endif %}
-    <div id="{{ post.id }}" class="my-3 card post">
-      <div class="card-body">
+    <div id="{{ post.id }}" class="my-1 card post">
+      <div class="card-body py-2">
         <div class="row">
           <div class="col-md-10 post-content-wrapper">
             <div class="float-right post-controls">
@@ -84,7 +86,7 @@
               </div>
               {% endif %}
           </div>
-          <div class="col-md-2 d-none d-md-block post-sidebar">
+          <div class="col-md-2 d-none d-md-flex flex-column justify-content-center post-sidebar text-center">
             {% if post.poster %}
             <div class="avatar">
               <a href="{% url 'forum_member:profile' post.poster_id %}">

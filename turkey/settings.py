@@ -81,6 +81,9 @@ INSTALLED_APPS = [
     'machina.apps.forum_permission',
 
     'el_pagination',
+
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -226,9 +229,17 @@ SOCIALACCOUNT_PROVIDERS = {
 
 MACHINA_FORUM_NAME = 'Turkey24.info форум'
 
+MACHINA_MARKUP_LANGUAGE = None
+
+MACHINA_MARKUP_WIDGET = 'ckeditor.widgets.CKEditorWidget'
+
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
         'PATH': BASE_DIR / 'whoosh_index',
     },
 }
+
+CKEDITOR_UPLOAD_PATH = 'ckeditor'
+
+CKEDITOR_IMAGE_BACKEND = 'pillow'
