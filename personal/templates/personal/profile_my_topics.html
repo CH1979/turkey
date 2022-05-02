@@ -1,0 +1,54 @@
+{% extends 'personal/profile_base.html' %}
+
+{% block profile_items %}
+{% load el_pagination_tags %}
+
+<div id="description" class="tabs tabs-simple tabs-simple-full-width-line tabs-product tabs-dark mb-2">
+    <ul class="nav nav-tabs justify-content-start">
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'my_lots' user.profile.id %}">
+                Мои объявления
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'favorite_lots' user.profile.id %}">
+                Избранные объявления
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'my_topics' user.profile.id %}">
+                Мои темы
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'favorite_topics' user.profile.id %}">
+                Темы за которыми слежу
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content p-0">
+
+        <div class="tab-pane px-0 py-3 active" id="myTopics">
+            <table class="table table-striped m-0">
+                <tbody>
+                    {% paginate profile.user.topic_set.all as my_topics %}
+                    {% for topic in my_topics %}
+                        <tr class="border-top-0">
+                            <th>
+                                <a href="{% url 'forum_conversation:topic' topic.forum.slug topic.forum.pk topic.slug topic.pk %}">
+                                    {{ topic }}
+                                </a>
+                            </th>
+                        </tr>
+                    {% empty %}
+                        Список тем пуст
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% show_pages %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -5,9 +5,28 @@ from django.views.generic import CreateView, DetailView
 from .models import Profile
 
 
-class ProfileDetailView(DetailView):
+class ProfileMyLotsView(DetailView):
     model = Profile
     fields = '__all__'
+    template_name = 'personal/profile_my_lots.html'
+
+
+class ProfileFavoriteLotsView(DetailView):
+    model = Profile
+    fields = '__all__'
+    template_name = 'personal/profile_favorite_lots.html'
+
+
+class ProfileMyTopicsView(DetailView):
+    model = Profile
+    fields = '__all__'
+    template_name = 'personal/profile_my_topics.html'
+
+
+class ProfileFavoriteTopicsView(DetailView):
+    model = Profile
+    fields = '__all__'
+    template_name = 'personal/profile_favorite_topics.html'
 
 
 class ProfileCreateView(CreateView):
