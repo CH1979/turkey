@@ -5,6 +5,8 @@ local_settings.py
 env/
 .env.dev
 
+*.sqlite3
+
 node_modules/
 npm-debug.log
 yarn-error.log
