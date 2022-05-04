@@ -35,7 +35,7 @@ class ArticlesByRubricView(ListView):
     """Представление списка статей фильтр по категории"""
     model = Article
     template_name = 'articles/articles_by_rubric.html'
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -52,7 +52,7 @@ class ArticlesByTagView(ListView):
     """Представление списка статей фильтр по тегу"""
     model = Article
     template_name = 'articles/articles_by_tag.html'
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
