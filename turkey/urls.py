@@ -29,6 +29,7 @@ urlpatterns = [
         'accounts/profile/',
         include('personal.urls')
     ),
+    path('articles/', include('articles.urls')),
     path('forum/', include(machina_urls)),
     path('market/', include('market.urls')),
     path('treewidget/', include('treewidget.urls')),

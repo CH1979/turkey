@@ -43,18 +43,25 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    # Search
     'haystack',
 
+    # My apps
     'market',
     'personal',
+    'articles',
 
+    # Hierarchy
     'treebeard',
     'treewidget',
 
+    # ImageField
     'stdimage',
 
+    # Phonenumber Field
     'phonenumber_field',
 
+    # Authorization
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -80,10 +87,15 @@ INSTALLED_APPS = [
     'machina.apps.forum_member',
     'machina.apps.forum_permission',
 
+    # Pagination
     'el_pagination',
 
+    # WYSIWYG editor
     'ckeditor',
     'ckeditor_uploader',
+
+    # Tags
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -243,3 +255,5 @@ HAYSTACK_CONNECTIONS = {
 CKEDITOR_UPLOAD_PATH = 'ckeditor'
 
 CKEDITOR_IMAGE_BACKEND = 'pillow'
+
+TAGGIT_CASE_INSENSITIVE = True

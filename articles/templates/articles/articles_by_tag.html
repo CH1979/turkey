@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div role="main" class="main">
+
+    <div class="container">
+        <div class="row pt-2 pb-4" aria-label="breadcrumb">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item" style="text-transform: none;">
+                        <a href="{% url 'articles' %}" class="text-color-dark">
+                            <i class="fas fa-home">&nbsp;</i>Статьи
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item" style="text-transform: none;">
+                        <a href="{% url 'articles_by_tag' tag.id %}" class="text-color-dark">
+                            {{ tag.name }}
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+          
+        {% for article in object_list %}
+
+            <article class="post post-medium">
+                <div class="row mb-1">
+                    <div class="col-lg-5">
+                        <div class="post-image">
+                            <a href="{% url 'article_detail' article.id %}">
+                                {% if article.cover %}
+                                    <img src="{{ article.cover.half_size.url }}" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" alt="{{ article.title }}">
+                                {% else %}
+                                    <img src="{% static 'img/no_cover_450_250.png' %}" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" alt="{{ article.title }}">
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="post-content">
+                            <h2 class="font-weight-semibold pt-4 pt-lg-0 text-5 line-height-4 mb-2">
+                                <a href="{% url 'article_detail' article.id %}">
+                                    {{ article.title }}
+                                </a>
+                            </h2>
+                            <p class="mb-0">
+                                {{ article.content|striptags|truncatechars:600 }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar-alt"></i> {{ article.created_at|date:"d E Y" }} </span>
+                            <span><i class="far fa-user"></i> Автор: {{ article.author }}</a> </span>
+                            <span><i class="far fa-folder"></i> {{ article.rubric.name }} </span>
+                            <span><i class="fa fa-tags"></i>
+                            {% for tag in article.tags.all %}
+                                {{ tag }}
+                            {% endfor %}
+                            </span>
+                            <span class="d-block d-sm-inline-block float-sm-end mt-3 mt-sm-0"><a href="{% url 'article_detail' article.id %}" class="btn btn-xs btn-light text-1 text-uppercase">Читать далее...</a></span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -5,6 +5,7 @@ django-el-pagination~=3.3
 django-machina~=1.1
 django-phonenumber-field[phonenumberslite]~=6.1
 django-stdimage~=5.3
+django-taggit~=3.0
 django-treebeard==4.5.1
 django-treewidget==0.4.2
 pillow==9.1.0
