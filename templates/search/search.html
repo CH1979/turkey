@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-8 mb-5 mb-lg-0">
+
+            <form method="get" action=".">
+                <div class="row">
+                    <input type="search" name="q" id="id_q" placeholder="Введите поисковый запрос...">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-auto mb-0">
+                        <div class="custom-control custom-checkbox">
+                            <label for="id_models_0">
+                                <input class="custom-control-input" type="checkbox" name="models" value="market.lot" id="id_models_0">
+                                Объявления
+                            </label>
+                            <label for="id_models_1">
+                                <input class="custom-control-input" type="checkbox" name="models" value="forum_conversation.post" id="id_models_1">
+                                Форумы
+                            </label>
+                            <label for="id_models_2">
+                                <input class="custom-control-input" type="checkbox" name="models" value="articles.article" id="id_models_2">
+                                Статьи
+                            </label>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Поиск" class="btn btn-dark text-uppercase rounded-0 font-weight-bold text-3">
+                    </div>
+                </div>
+            </form>
+            {% if query %}
+                <div class="row">
+                    <h2 class="text-center font-weight-bold text-5 mb-0 pt-3">Результаты поиска</h2>
+
+                    {% for result in page.object_list %}
+                        {% if result.content_type == "market.lot" %}
+                        {% include "search/includes/market/lot.html" %}
+                        {% endif %}
+                        {% if result.content_type == "forum_conversation.post" %}
+                        {% include "search/includes/forum_conversation/post.html" %}
+                        {% endif %}
+                        {% if result.content_type == "articles.article" %}
+                        {% include "search/includes/articles/article.html" %}
+                        {% endif %}
+                    {% empty %}
+                        <p>Ничего не найдено.</p>
+                    {% endfor %}
+                </div>
+
+                {% if page.has_previous or page.has_next %}
+                    <div class="row mt-4">
+                        <div class="col">
+                            <ul class="pagination float-end">
+                                {% if page.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?q={{ query }}&amp;page=1">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?q={{ query }}&amp;page={{ page.previous_page_number }}">
+                                            <i class="fas fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if page.previous_page_number > 1 %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?q={{ query }}&amp;page={{ page.previous_page_number }}">
+                                            {{ page.previous_page_number }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">
+                                        {{ page.number }}
+                                    </a>
+                                </li>
+                                {% if page.next_page_number < page.paginator.num_pages %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?q={{ query }}&amp;page={{ page.next_page_number }}">
+                                            {{ page.next_page_number }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if page.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?q={{ query }}&amp;page={{ page.next_page_number }}">
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?q={{ query }}&amp;page={{ page.paginator.num_pages }}">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    
+                    </div>
+                {% endif %}
+            {% endif %}
+        
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -105,7 +105,7 @@
                         </div>
                         <div class="header-nav-features header-nav-features-no-border col-lg-5 col-xl-6 px-0 ms-0">
                             <div class="header-nav-feature ps-lg-5 pe-lg-4">
-                                <form role="search" action="{% url 'forum_search:search' %}">
+                                <form role="search" action="{% url 'haystack_search' %}">
                                     <div class="search-with-select">
                                         <a href="#" class="mobile-search-toggle-btn me-2" data-porto-toggle-class="open">
                                             <i class="icons icon-magnifier text-color-dark text-color-hover-primary"></i>
@@ -114,11 +114,10 @@
                                             <input class="form-control text-1" id="headerSearch" name="q" type="search" value="" placeholder="Поиск...">
                                             <div class="search-form-select-wrapper">
                                                 <div class="custom-select-1">
-                                                    <select name="category" class="form-control form-select">
-                                                        <option value="all" selected>По всем разделам</option>
-                                                        <option value="market">В объявлениях</option>
-                                                        <option value="articles">В статьях</option>
-                                                        <option value="forum">На форуме</option>
+                                                    <select name="models" class="form-control form-select">
+                                                        <option value="market.lot" selected>В объявлениях</option>
+                                                        <option value="articles.article">В статьях</option>
+                                                        <option value="forum_conversation.post">На форуме</option>
                                                     </select>
                                                 </div>
                                                 <button class="btn" type="submit">
@@ -216,7 +215,7 @@
                                         </ul>
                                         <ul class="nav nav-pills">
                                             <li class="dropdown">
-                                                <a class="" href="{% url 'forum_search:search' %}">
+                                                <a class="" href="{% url 'haystack_search' %}">
                                                     Поиск
                                                 </a>
                                             </li>

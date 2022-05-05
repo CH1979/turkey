@@ -1,0 +1,14 @@
+<div class="card mb-2">
+    <p class="mb-0">
+        Статья:
+        <a href="{% url 'article_detail' result.object.id %}">{{ result.object.title }}</a>
+    </p>
+    <p class="mb-0">
+        Рубрика:
+        {{ result.object.rubric.name }}
+    </p>
+    <p class="mb-0">
+        Опубликовано:
+        {{ result.object.created_at }}</a>
+    </p>
+</div>

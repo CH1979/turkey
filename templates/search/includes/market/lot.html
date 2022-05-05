@@ -1,0 +1,18 @@
+<div class="card mb-2">
+    <p class="mb-0">
+        Объявление:
+        <a href="{% url 'lot_detail' result.object.id %}">{{ result.object.title }}</a>
+    </p>
+    <p class="mb-0">
+        Цена:
+        {{ result.object.price }} {{ result.object.currency.symbol }}
+    </p>
+    <p class="mb-0">
+        Категория:
+        {{ result.object.category }}</a>
+    </p>
+    <p class="mb-0">
+        Опубликовано:
+        {{ result.object.created_at }}</a>
+    </p>
+</div>
