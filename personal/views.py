@@ -63,8 +63,11 @@ def update_profile(request):
             forum_profile_form.save()
 
             return HttpResponseRedirect(
-                reverse('profile_detail', kwargs={'pk': request.user.profile.id})
+                reverse(
+                    'profile_detail',
+                    kwargs={'pk': request.user.profile.id}
                 )
+            )
     else:
         user_form = UserForm(
             instance=request.user
@@ -82,4 +85,5 @@ def update_profile(request):
             'user_form': user_form,
             'profile_form': profile_form,
             'forum_profile_form': forum_profile_form
-        })
+        }
+    )

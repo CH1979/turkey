@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
@@ -59,6 +61,7 @@ class LotListView(ListView):
         return queryset
 
 
+@login_required
 def category_select(request):
     form = CategoryForm(request.POST or None)
 
@@ -70,7 +73,7 @@ def category_select(request):
     return render(request, 'market/category_select.html', {'form': form})
 
 
-class LotCreateView(CreateView):
+class LotCreateView(LoginRequiredMixin, CreateView):
     """Представление для создания объявления"""
     template_name = 'market/lot_create.html'
     model = models.Lot
@@ -108,7 +111,7 @@ class LotCreateView(CreateView):
         return context
 
 
-class LotDeleteView(DeleteView):
+class LotDeleteView(LoginRequiredMixin, DeleteView):
     """Представление для удаления объявления"""
     model = models.Lot
 
@@ -116,6 +119,7 @@ class LotDeleteView(DeleteView):
         return reverse('profile', kwargs={'pk': self.request.user.profile.id})
 
 
+@login_required
 def lot_favorite(request, pk):
     if request.method == 'GET':
         raise Http404
@@ -129,6 +133,7 @@ def lot_favorite(request, pk):
         return JsonResponse({'status': 'OK'})
 
 
+@login_required
 def lot_unfavorite(request, pk):
     if request.method == 'GET':
         raise Http404
@@ -142,7 +147,7 @@ def lot_unfavorite(request, pk):
         return JsonResponse({'status': 'OK'})
 
 
-class GalleryListView(ListView):
+class GalleryListView(LoginRequiredMixin, ListView):
     """Представление фото объявления"""
     model = models.Gallery
     fields = ('image', )
@@ -154,7 +159,7 @@ class GalleryListView(ListView):
         return queryset
 
 
-class GalleryCreateView(CreateView):
+class GalleryCreateView(LoginRequiredMixin, CreateView):
     """Представление для добавления фото объявления"""
     model = models.Gallery
     fields = ('image', )
@@ -173,7 +178,7 @@ class GalleryCreateView(CreateView):
         return JsonResponse({'status': 'OK'})
 
 
-class GalleryDeleteView(DeleteView):
+class GalleryDeleteView(LoginRequiredMixin, DeleteView):
     """Представление для удаления фото объявления"""
     model = models.Gallery
 
