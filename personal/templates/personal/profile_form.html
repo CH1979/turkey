@@ -8,7 +8,7 @@
         <div class="col-md-6 col-lg-5 mb-5 mb-lg-0">
 
             <h2 class="font-weight-bold text-5 mb-0">Заполните профиль</h2>
-            <form action="{% url 'profile_create' %}" method="post" class="needs-validation">
+            <form action="{% url 'profile_update' %}" method="post" class="needs-validation">
 
                 {% csrf_token %}
                 {% if redirect_field_value %}
@@ -16,32 +16,64 @@
                 {% endif %}
 
                 <label class="error">
-                    {{ form.non_field_errors }}
+                    {{ user_form.non_field_errors }}
+                </label>
+                <label class="error">
+                    {{ profile_form.non_field_errors }}
+                </label>
+                <label class="error">
+                    {{ forum_profile_form.non_field_errors }}
                 </label>
 
-                <div class="row">
-                    <div class="form-group col">
-                        <label class="error">
-                            {{ form.avatar.errors }}
-                        </label>
-                        <label class="form-label text-color-dark text-3" for="id_avatar">
-                            Аватар
-                        </label>
-                        <input class="form-control form-control-lg text-4" type="file" name="avatar" accept="image/*" id="id_avatar">
+                {% for field in user_form %}
+                    <div class="row">
+                        <div class="form-group col">
+                            <label class="error">
+                                {{ field.errors }}
+                            </label>
+                            <label class="form-label text-color-dark text-3" for="id_avatar">
+                                {{ field.label_tag }}
+                            </label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col">
-                        <label class="error">
-                            {{ form.phone.errors }}
-                        </label>
-                        <label class="form-label text-color-dark text-3" for="id_phone">
-                            Номер телефона
-                        </label>
-                        <input class="form-control form-control-lg text-4" type="tel" name="phone" maxlength="128" id="id_phone">
+                {% endfor %}
+                {% for field in profile_form %}
+                    <div class="row">
+                        <div class="form-group col">
+                            <label class="error">
+                                {{ field.errors }}
+                            </label>
+                            <label class="form-label text-color-dark text-3" for="id_avatar">
+                                {{ field.label_tag }}
+                            </label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
+                {{ forum_profile_form.media }}
+                {% for field in forum_profile_form %}
+                    <div class="row">
+                        <div class="form-group col">
+                            <label class="error">
+                                {{ field.errors }}
+                            </label>
+                            <label class="form-label text-color-dark text-3" for="id_avatar">
+                                {{ field.label_tag }}
+                            </label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
 
                 <div class="row">
                     <div class="form-group col">
@@ -53,5 +85,9 @@
     </div>
 
 </div>
-
+<style>
+.django-ckeditor-widget{
+    max-width: 100%;
+    }
+</style>
 {% endblock %}

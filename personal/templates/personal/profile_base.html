@@ -2,37 +2,14 @@
 
 {% block content %}
 {% csrf_token %}
-<div class="container py-4">
+<div class="container py-4 d-flex justify-content-center">
 
-    <div class="row">
-        <div class="col-lg-3">
-            <aside class="sidebar">
-                <div class="row">
-                    <h5 class="font-weight-semi-bold text-center pt-3">Профиль пользователя</h5>
-                    {% if profile.user.forum_profile.avatar %}
-                    <div class="text-center">
-                        <img class="img-thumbnail" src="{{ profile.user.forum_profile.avatar.url }}">
-                    </div>
-                    {% endif %}
-                    <div class="text-center pt-3">
-                        <p>{{ profile }}</p>
-                    </div>
-                    <div class="text-center">
-                        <p>{{ profile.phone }}</p>
-                    </div>
-                </div>
-            </aside>
-        </div>
-        <div class="col-lg-9">
-            <div class="row">
-                <div class="col">
-                    {% block profile_items %}
-                    {% endblock %}
-                </div>
+    <div class="col-lg-10">
+        <div class="row">
+            <div class="col">
+                {% block profile_items %}
+                {% endblock %}
             </div>
-
-            <hr class="solid my-5">
-
         </div>
     </div>
 

@@ -1,0 +1,104 @@
+{% extends 'personal/profile_base.html' %}
+
+{% block profile_items %}
+{% load el_pagination_tags %}
+
+
+<div id="description" class="tabs tabs-simple tabs-simple-full-width-line tabs-product tabs-dark mb-2">
+    <ul class="nav nav-tabs justify-content-start">
+        <li class="nav-item">
+            <a class="nav-link active font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'profile_detail' profile.id %}">
+                Профиль
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'my_lots' profile.id %}">
+                Мои объявления
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'favorite_lots' profile.id %}">
+                Избранные объявления
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'my_topics' profile.id %}">
+                Мои темы
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'favorite_topics' profile.id %}">
+                Темы за которыми слежу
+            </a>
+        </li>
+    </ul>
+
+    <div class="row">
+        <div class="text-center col-lg-2">
+            {% if profile.user.forum_profile.avatar %}
+                <img class="img-thumbnail" src="{{ profile.user.forum_profile.avatar.url }}">
+            {% else %}
+                <i class="icons icon-user text-20"></i>
+            {% endif %}
+            <p class="my-2">
+                <a href="{% url 'profile_update' %}">Редактировать профиль</a>
+            </p>
+            <p>
+                <a href="{% url 'account_logout' %}">Выйти из профиля</a>
+            </p class="mb-0">
+        </div>
+        <div class="col-lg-10">
+            <p class="mb-0">
+                <label class="label">
+                    Никнейм: 
+                </label>
+                <span class="text-color-dark">
+                    {{ profile.user.username }}
+                </span>
+            </p>
+            <p class="mb-0">
+                <label class="label">
+                    Имя: 
+                </label>
+                <span class="text-color-dark">
+                    {{ profile.user.first_name }}
+                </span>
+            </p>
+            <p class="mb-0">
+                <label class="label">
+                    Фамилия: 
+                </label>
+                <span class="text-color-dark">
+                    {{ profile.user.last_name }}
+                </span>
+            </p>
+            <p class="mb-0">
+                <label class="label">
+                    e-mail: 
+                </label>
+                <span class="text-color-dark">
+                    {{ profile.user.email }}
+                </span>
+            </p>
+            <p class="mb-0">
+                <label class="label">
+                    Местоположение: 
+                </label>
+                <span class="text-color-dark">
+                    {{ profile.location }}
+                </span>
+            </p>
+            <p class="mb-0">
+                <label class="label">
+                    Номер телефона: 
+                </label>
+                <span class="text-color-dark">
+                    {{ profile.phone }}
+                </span>
+            </p>
+        </div>
+    
+        
+    </div>
+</div>
+{% endblock %}

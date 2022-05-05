@@ -5,9 +5,14 @@ from . import views
 
 urlpatterns = [
     path(
-        'create/',
-        views.ProfileCreateView.as_view(),
-        name='profile_create',
+        '<int:pk>/',
+        views.ProfileDetailView.as_view(),
+        name='profile_detail',
+    ),
+    path(
+        'profile_update/',
+        views.update_profile,
+        name='profile_update',
     ),
     path(
         '<int:pk>/my_lots/',

@@ -6,6 +6,11 @@
 <div id="description" class="tabs tabs-simple tabs-simple-full-width-line tabs-product tabs-dark mb-2">
     <ul class="nav nav-tabs justify-content-start">
         <li class="nav-item">
+            <a class="nav-link font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'profile_detail' user.profile.id %}">
+                Профиль
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link active font-weight-bold text-3 text-uppercase py-2 px-3" href="{% url 'my_lots' user.profile.id %}">
                 Мои объявления
             </a>

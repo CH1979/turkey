@@ -1,41 +1,85 @@
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import CreateView, DetailView
+from django.views.generic import DetailView
 
+from .forms import UserForm, ProfileForm, ForumProfileForm
 from .models import Profile
 
 
-class ProfileMyLotsView(DetailView):
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = Profile
+    fields = '__all__'
+
+
+class ProfileMyLotsView(LoginRequiredMixin, DetailView):
     model = Profile
     fields = '__all__'
     template_name = 'personal/profile_my_lots.html'
 
 
-class ProfileFavoriteLotsView(DetailView):
+class ProfileFavoriteLotsView(LoginRequiredMixin, DetailView):
     model = Profile
     fields = '__all__'
     template_name = 'personal/profile_favorite_lots.html'
 
 
-class ProfileMyTopicsView(DetailView):
+class ProfileMyTopicsView(LoginRequiredMixin, DetailView):
     model = Profile
     fields = '__all__'
     template_name = 'personal/profile_my_topics.html'
 
 
-class ProfileFavoriteTopicsView(DetailView):
+class ProfileFavoriteTopicsView(LoginRequiredMixin, DetailView):
     model = Profile
     fields = '__all__'
     template_name = 'personal/profile_favorite_topics.html'
 
 
-class ProfileCreateView(CreateView):
-    model = Profile
-    fields = ('phone')
+@login_required
+@transaction.atomic
+def update_profile(request):
+    if request.method == 'POST':
+        user_form = UserForm(
+            request.POST,
+            instance=request.user
+        )
+        profile_form = ProfileForm(
+            request.POST,
+            instance=request.user.profile
+        )
+        forum_profile_form = ForumProfileForm(
+            request.POST,
+            instance=request.user.forum_profile
+        )
+        if user_form.is_valid() and profile_form.is_valid() \
+            and forum_profile_form.is_valid():
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+            user_form.save()
+            profile_form.save()
+            forum_profile_form.save()
 
-    def get_success_url(self):
-        return reverse('index')
+            return HttpResponseRedirect(
+                reverse('profile_detail', kwargs={'pk': request.user.profile.id})
+                )
+    else:
+        user_form = UserForm(
+            instance=request.user
+        )
+        profile_form = ProfileForm(
+            instance=request.user.profile
+        )
+        forum_profile_form = ForumProfileForm(
+            instance=request.user.forum_profile
+        )
+    return render(
+        request,
+        'personal/profile_form.html',
+        {
+            'user_form': user_form,
+            'profile_form': profile_form,
+            'forum_profile_form': forum_profile_form
+        })
