@@ -17,3 +17,4 @@ static/
 whoosh_index/
 
 settings.prod.py
+settings.py
