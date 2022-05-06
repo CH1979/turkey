@@ -96,6 +96,9 @@ INSTALLED_APPS = [
 
     # Tags
     'taggit',
+
+    # Captcha
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -221,11 +224,7 @@ CACHES = {
     },
 }
 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
-    },
-}
+# AllAuth
 
 SOCIALACCOUNT_PROVIDERS = {
     'vk': {
@@ -236,6 +235,8 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+ACCOUNT_SIGNUP_FORM_CLASS = 'personal.forms.AllAuthSignupForm'
 
 # Django-machina forum
 

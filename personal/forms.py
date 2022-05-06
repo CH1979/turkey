@@ -1,3 +1,4 @@
+from captcha.fields import CaptchaField
 from django import forms
 from django.contrib.auth.models import User
 from machina.apps.forum_member.models import ForumProfile
@@ -39,3 +40,17 @@ class ForumProfileForm(forms.ModelForm):
         super(ForumProfileForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = CSS_CLASSES
+
+
+class AllAuthSignupForm(forms.Form):
+
+    captcha = CaptchaField()
+
+    def __init__(self, *args, **kwargs):
+        super(AllAuthSignupForm, self).__init__(*args, **kwargs)
+        print(self.fields)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = CSS_CLASSES
+
+    def signup(self, request, user):
+        user.save()

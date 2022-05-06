@@ -23,13 +23,13 @@
                 {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
-                <label class="error">
-                    {{ form.non_field_errors }}
-                </label>
+                {% if form.non_field_errors %}
+                <label class="error">{{ form.non_field_errors }}</label>
+                {% endif %}
                 {% for field in form %}
-                <label class="error">
-                    {{ field.errors }}
-                </label>
+                {% if field.errors %}
+                <label class="error">{{ field.errors }}</label>
+                {% endif %}
                 {% endfor %}
 
                 <div class="row">
@@ -62,6 +62,14 @@
                             Пароль (еще раз) <span class="text-color-danger">*</span>
                         </label>
                         <input type="password" class="form-control form-control-lg text-4" name="password2" placeholder="Пароль" autocomplete="new-password" required id="id_password2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <label class="form-label text-color-dark text-3" for="id_password2">
+                            Введите символы с картинки <span class="text-color-danger">*</span>
+                        </label>
+                        {{ form.captcha }}
                     </div>
                 </div>
                 <div class="row">

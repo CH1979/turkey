@@ -12,7 +12,7 @@ from django.views.generic import (
 )
 
 from . import models
-from .forms import CategoryForm
+from .forms import CategoryForm, LotForm
 from personal.models import Profile
 
 
@@ -77,14 +77,7 @@ class LotCreateView(LoginRequiredMixin, CreateView):
     """Представление для создания объявления"""
     template_name = 'market/lot_create.html'
     model = models.Lot
-    fields = [
-        'title',
-        'price',
-        'currency',
-        'description',
-        'extra_fields',
-        'video_url',
-    ]
+    form_class = LotForm
 
     def form_valid(self, form):
         category_id = self.request.session['category_id']
