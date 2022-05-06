@@ -81,8 +81,10 @@ class Currency(models.Model):
         max_length=1,
         verbose_name='символ',
     )
-    rate = models.FloatField(
+    rate = models.DecimalField(
         verbose_name='курс обмена',
+        max_digits=10,
+        decimal_places=4,
     )
 
     class Meta:
@@ -120,10 +122,12 @@ class Lot(models.Model):
         verbose_name='создано',
         auto_now=True,
     )
-    price = models.FloatField(
+    price = models.DecimalField(
         verbose_name='цена',
         blank=False,
         null=False,
+        max_digits=12,
+        decimal_places=2,
     )
     currency = models.ForeignKey(
         to=Currency,
