@@ -1,6 +1,9 @@
 {% extends "lot_base.html" %}
 {% load static %}
 
+{% block title %}{{ block.super }}{% endblock %}
+{% block meta_desc %}{{ block.super }}{% endblock %}
+
 {% block market_content %}
 {% csrf_token %}
     <div class="masonry-loader masonry-loader-showing">

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}{{ rubric.name|lower }}{% endblock %}
+{% block meta_desc %}{{ rubric.name|lower }}{% endblock %}
+
 {% block content %}
 <div role="main" class="main">
 

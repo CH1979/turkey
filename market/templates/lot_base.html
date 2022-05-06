@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}объявления {{ current_category|lower }}{% endblock %}
+{% block meta_desc %}объявления в Турции {{ current_category|lower }}{% endblock %}
+
 {% block content %}
 <div role="main" class="main shop pt-4">
 

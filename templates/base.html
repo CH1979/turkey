@@ -3,134 +3,117 @@
 <!DOCTYPE html>
 <html {% get_current_language as LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}">
     {% load static %}
-	<head>
+    <head>
 
-		<!-- Basic -->
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">	
+        <!-- Basic -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">	
 
-		<title>Turkey info {% block title %}{% endblock %}</title>	
+        <title>Turkey info {% block title %}{% endblock %}</title>	
 
-		<meta name="keywords" content="turkey {% block keywords %}{% endblock %}">
-		<meta name="description" content="">
+        <meta name="keywords" content="turkey {% block keywords %}{% endblock %}">
+        <meta name="description" content="turkey info {% block meta_desc %}{% endblock %}">
 
-		<!-- Favicon -->
-		<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
-		<link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
 
-		<!-- Mobile Metas -->
-		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+        <!-- Mobile Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
 
-		<!-- Web Fonts  -->
-		<link id="googleFonts" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800%7CShadows+Into+Light%7CPlayfair+Display:400&display=swap" rel="stylesheet" type="text/css">
+        <!-- Web Fonts  -->
+        <link id="googleFonts" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800%7CShadows+Into+Light%7CPlayfair+Display:400&display=swap" rel="stylesheet" type="text/css">
 
-		<!-- Vendor CSS -->
-		<link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
-		<link rel="stylesheet" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}">
-		<link rel="stylesheet" href="{% static 'vendor/animate/animate.compat.css' %}">
-		<link rel="stylesheet" href="{% static 'vendor/simple-line-icons/css/simple-line-icons.min.css' %}">
-		<link rel="stylesheet" href="{% static 'vendor/owl.carousel/assets/owl.carousel.min.css' %}">
-		<link rel="stylesheet" href="{% static 'vendor/owl.carousel/assets/owl.theme.default.min.css' %}">
-		<link rel="stylesheet" href="{% static 'vendor/magnific-popup/magnific-popup.min.css' %}">
-		<link rel="stylesheet" href="{% static 'vendor/bootstrap-star-rating/css/star-rating.min.css' %}">
-		<link rel="stylesheet" href="{% static 'vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.css' %}">
+        <!-- Vendor CSS -->
+        <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}">
+        <link rel="stylesheet" href="{% static 'vendor/animate/animate.compat.css' %}">
+        <link rel="stylesheet" href="{% static 'vendor/simple-line-icons/css/simple-line-icons.min.css' %}">
+        <link rel="stylesheet" href="{% static 'vendor/owl.carousel/assets/owl.carousel.min.css' %}">
+        <link rel="stylesheet" href="{% static 'vendor/owl.carousel/assets/owl.theme.default.min.css' %}">
+        <link rel="stylesheet" href="{% static 'vendor/magnific-popup/magnific-popup.min.css' %}">
+        <link rel="stylesheet" href="{% static 'vendor/bootstrap-star-rating/css/star-rating.min.css' %}">
+        <link rel="stylesheet" href="{% static 'vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.css' %}">
 
-		<!-- Theme CSS -->
-		<link rel="stylesheet" href="{% static 'css/theme.css' %}">
-		<link rel="stylesheet" href="{% static 'css/theme-elements.css' %}">
-		<link rel="stylesheet" href="{% static 'css/theme-blog.css' %}">
-		<link rel="stylesheet" href="{% static 'css/theme-shop.css' %}">
+        <!-- Theme CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+        <link rel="stylesheet" href="{% static 'css/theme-elements.css' %}">
+        <link rel="stylesheet" href="{% static 'css/theme-blog.css' %}">
+        <link rel="stylesheet" href="{% static 'css/theme-shop.css' %}">
 
-		<!-- Skin CSS -->
-		<link id="skinCSS" rel="stylesheet" href="{% static 'css/skins/default.css' %}">
+        <!-- Skin CSS -->
+        <link id="skinCSS" rel="stylesheet" href="{% static 'css/skins/default.css' %}">
 
-		<!-- Theme Custom CSS -->
-		<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+        <!-- Theme Custom CSS -->
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
-		<!-- Treewidget CSS -->
-		<link href="{% static 'treewidget/themes/default/style.css' %}" type="text/css" media="screen" rel="stylesheet">
-		<link href="{% static 'treewidget/default.css' %}" type="text/css" media="screen" rel="stylesheet">
+        <!-- Treewidget CSS -->
+        <link href="{% static 'treewidget/themes/default/style.css' %}" type="text/css" media="screen" rel="stylesheet">
+        <link href="{% static 'treewidget/default.css' %}" type="text/css" media="screen" rel="stylesheet">
 
-		<!-- Upload images styles -->
-		<link href="{% static 'imageupload/file-upload-with-preview.min.css' %}" rel="stylesheet" type="text/css">
+        <!-- Upload images styles -->
+        <link href="{% static 'imageupload/file-upload-with-preview.min.css' %}" rel="stylesheet" type="text/css">
 
-		<!-- Head Libs -->
-		<script src="{% static 'vendor/modernizr/modernizr.min.js' %}"></script>
+        <!-- Head Libs -->
+        <script src="{% static 'vendor/modernizr/modernizr.min.js' %}"></script>
 
-		{% block head %}{% endblock %}
+        {% block head %}{% endblock %}
+        {% block css %}{% endblock css %}
+        {% block extra_css %}{% endblock extra_css %}
+    
+    </head>
+    <body data-plugin-page-transition>
 
-		{% block css %}
-		{% endblock css %}
-	
-		{% block extra_css %}
-		{% endblock extra_css %}
-	
-	</head>
-	<body data-plugin-page-transition>
+        <div class="body">
+            {% include "header.html" %}
+            {% block forum_header %}{% endblock forum_header %}
+            {% block forum_content_up %}{% endblock forum_content_up %}
+            {% block content %}{% endblock %}
+            {% block forum_content_down %}{% endblock forum_content_down %}
+            {% include "footer.html" %}
+        </div>
 
-		<div class="body">
-			{% include "header.html" %}
-			
-			{% block forum_header %}
-			{% endblock forum_header %}
-			
-			{% block forum_content_up %}
-			{% endblock forum_content_up %}
+        <!-- Vendor -->
+        <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery.appear/jquery.appear.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery.cookie/jquery.cookie.min.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery.validation/jquery.validate.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery.gmap/jquery.gmap.min.js' %}"></script>
+        <script src="{% static 'vendor/lazysizes/lazysizes.min.js' %}"></script>
+        <script src="{% static 'vendor/isotope/jquery.isotope.min.js' %}"></script>
+        <script src="{% static 'vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+        <script src="{% static 'vendor/vide/jquery.vide.min.js' %}"></script>
+        <script src="{% static 'vendor/vivus/vivus.min.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap-star-rating/js/star-rating.min.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery.countdown/jquery.countdown.min.js' %}"></script>
 
-			{% block content %}
-			{% endblock %}
+        <!-- Theme Base, Components and Settings -->
+        <script src="{% static 'js/theme.js' %}"></script>
 
-			{% block forum_content_down %}
-			{% endblock forum_content_down %}
-			
-			{% include "footer.html" %}
-		</div>
+        <!-- Current Page Vendor and Views -->
+        <script src="{% static 'js/views/view.shop.js' %}"></script>
 
-		<!-- Vendor -->
-		<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-		<script src="{% static 'vendor/jquery.appear/jquery.appear.min.js' %}"></script>
-		<script src="{% static 'vendor/jquery.easing/jquery.easing.min.js' %}"></script>
-		<script src="{% static 'vendor/jquery.cookie/jquery.cookie.min.js' %}"></script>
-		<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-		<script src="{% static 'vendor/jquery.validation/jquery.validate.min.js' %}"></script>
-		<script src="{% static 'vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js' %}"></script>
-		<script src="{% static 'vendor/jquery.gmap/jquery.gmap.min.js' %}"></script>
-		<script src="{% static 'vendor/lazysizes/lazysizes.min.js' %}"></script>
-		<script src="{% static 'vendor/isotope/jquery.isotope.min.js' %}"></script>
-		<script src="{% static 'vendor/owl.carousel/owl.carousel.min.js' %}"></script>
-		<script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
-		<script src="{% static 'vendor/vide/jquery.vide.min.js' %}"></script>
-		<script src="{% static 'vendor/vivus/vivus.min.js' %}"></script>
-		<script src="{% static 'vendor/bootstrap-star-rating/js/star-rating.min.js' %}"></script>
-		<script src="{% static 'vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.js' %}"></script>
-		<script src="{% static 'vendor/jquery.countdown/jquery.countdown.min.js' %}"></script>
+        <!-- Theme Initialization Files -->
+        <script src="{% static 'js/theme.init.js' %}"></script>
 
-		<!-- Theme Base, Components and Settings -->
-		<script src="{% static 'js/theme.js' %}"></script>
+        <!-- Treewidget -->
+        <script src="{% static 'treewidget/jstree.min.js' %}"></script>
+        <script src="{% static 'treewidget/default.js' %}"></script>
 
-		<!-- Current Page Vendor and Views -->
-		<script src="{% static 'js/views/view.shop.js' %}"></script>
+        <!-- Theme Custom -->
+        <script src="{% static 'js/custom.js' %}" type="module"></script>
 
-		<!-- Theme Initialization Files -->
-		<script src="{% static 'js/theme.init.js' %}"></script>
+    <!-- Examples -->
+    <script src="{% static 'js/examples/examples.gallery.js' %}"></script>
 
-		<!-- Treewidget -->
-		<script src="{% static 'treewidget/jstree.min.js' %}"></script>
-		<script src="{% static 'treewidget/default.js' %}"></script>
+    {% block scripts %}{% endblock %}
+    {% block js %}{% endblock js %}
+    {% block extra_js %}{% endblock extra_js %}
 
-		<!-- Theme Custom -->
-		<script src="{% static 'js/custom.js' %}" type="module"></script>
-
-	<!-- Examples -->
-	<script src="{% static 'js/examples/examples.gallery.js' %}"></script>
-
-	{% block scripts %}{% endblock %}
-
-	{% block js %}
-    {% endblock js %}
-
-    {% block extra_js %}
-    {% endblock extra_js %}
-
-	</body>
+    </body>
 </html>

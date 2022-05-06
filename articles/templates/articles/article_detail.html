@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}{{ article.title|lower }}{% endblock %}
+{% block meta_desc %}{{ article.content|striptags|lower|truncatewords:25 }}{% endblock %}
+{% block keywords %}, {{ article.rubric.name|lower }}, {% for tag in article.tags.all %}{{ tag }},{% endfor %}{% endblock %}
+
 {% block content %}
 <div role="main" class="main pt-3 mt-3">
 

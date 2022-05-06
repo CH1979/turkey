@@ -1,6 +1,13 @@
 {% extends 'lot_base.html' %}
 {% load static %}
 
+{% block title %}{{ lot.title|lower }} {{ lot.price }} {{ lot.currency.symbol }}
+{% if lot.author.location %}
+в Турции {{ lot.author.location }}
+{% endif %}
+{% endblock %}
+{% block meta_desc %}{{ lot.description|lower|truncatewords:25 }}{% endblock %}
+
 {% block market_content %}
 {% csrf_token %}
 <div class="row">
