@@ -4,6 +4,7 @@ from uuid import uuid4
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from stdimage import StdImageField
 from taggit.managers import TaggableManager
 
@@ -97,3 +98,6 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title + (' - черновик' if self.is_draft else '')
+
+    def get_absolute_url(self):
+        return reverse('article_detail', kwargs={'pk': self.pk})

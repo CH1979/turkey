@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from stdimage import StdImageField
 from treebeard.mp_tree import MP_Node
 from treewidget.fields import TreeForeignKey
@@ -157,6 +158,9 @@ class Lot(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.id, self.title)
+
+    def get_absolute_url(self):
+        return reverse('lot_detail', kwargs={'pk': self.pk})
 
 
 class Gallery(models.Model):

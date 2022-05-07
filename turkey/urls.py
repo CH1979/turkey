@@ -16,26 +16,73 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps import views as sitemap_views
 from django.views.generic.base import RedirectView
 from django.urls import path, include
-
 from machina import urls as machina_urls
 
+from articles.sitemaps import ArticleViewSitemap
+from market.sitemaps import LotViewSitemap
+from .sitemaps import ForumSitemap
+
+sitemaps = {
+    'market': LotViewSitemap,
+    'articles': ArticleViewSitemap,
+    'forum': ForumSitemap,
+}
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
+    path(
+        'admin/',
+        admin.site.urls
+    ),
+    path(
+        'accounts/',
+        include('allauth.urls')
+    ),
     path(
         'accounts/profile/',
         include('personal.urls')
     ),
-    path('articles/', include('articles.urls')),
-    path('forum/', include(machina_urls)),
-    path('market/', include('market.urls')),
-    path('treewidget/', include('treewidget.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('captcha/', include('captcha.urls')),
-    path('search/', include('haystack.urls')),
+    path(
+        'articles/',
+        include('articles.urls')
+    ),
+    path(
+        'forum/',
+        include(machina_urls)
+    ),
+    path(
+        'market/',
+        include('market.urls')
+    ),
+    path(
+        'treewidget/',
+        include('treewidget.urls')
+    ),
+    path(
+        'ckeditor/',
+        include('ckeditor_uploader.urls')
+    ),
+    path(
+        'captcha/',
+        include('captcha.urls')
+    ),
+    path(
+        'search/',
+        include('haystack.urls')
+    ),
+    path(
+        'sitemap.xml',
+        sitemap_views.index,
+        {'sitemaps': sitemaps},
+    ),
+    path(
+        'sitemap-<section>.xml',
+        sitemap_views.sitemap,
+        {'sitemaps': sitemaps},
+        name='django.contrib.sitemaps.views.sitemap',
+    ),
     path(
         '',
         RedirectView.as_view(pattern_name='market', permanent=False),
