@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import DetailView
+from machina.apps.forum_member.models import ForumProfile
 
 from .forms import UserForm, ProfileForm, ForumProfileForm
 from .models import Profile
@@ -51,9 +52,11 @@ def update_profile(request):
             request.POST,
             instance=request.user.profile
         )
+        forum_profile_instance, dummy = \
+            ForumProfile.objects.get_or_create(user=request.user)
         forum_profile_form = ForumProfileForm(
             request.POST,
-            instance=request.user.forum_profile
+            instance=forum_profile_instance
         )
         if user_form.is_valid() and profile_form.is_valid() \
             and forum_profile_form.is_valid():
@@ -75,8 +78,11 @@ def update_profile(request):
         profile_form = ProfileForm(
             instance=request.user.profile
         )
+        forum_profile_instance, dummy = \
+            ForumProfile.objects.get_or_create(user=request.user)
         forum_profile_form = ForumProfileForm(
-            instance=request.user.forum_profile
+            request.POST,
+            instance=forum_profile_instance
         )
     return render(
         request,
