@@ -136,9 +136,6 @@ class Lot(models.Model):
         null=False,
         on_delete=models.CASCADE
     )
-    # location = models.ForeignKey(
-    #     verbose_name='местоположение'
-    # )
     description = models.TextField(
         verbose_name='описание'
     )

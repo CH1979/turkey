@@ -16,6 +16,11 @@ urlpatterns = [
         views.category_select,
         name='category_select'
     ),
+        path(
+        'location/select/',
+        views.location_select,
+        name='location_select'
+    ),
     # Создание объявления
     path(
         'lot/create/',

@@ -12,8 +12,8 @@ from django.views.generic import (
 )
 
 from . import models
-from .forms import CategoryForm, LotForm
-from personal.models import Profile
+from .forms import CategoryForm, LocationForm, LotForm
+from personal.models import Location, Profile
 
 
 class LotDetailView(DetailView):
@@ -34,6 +34,7 @@ class LotListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(LotListView, self).get_context_data(**kwargs)
         category_id = self.kwargs.get('pk', None)
+        location_id = self.request.session.get('location_id', None)
 
         # Создание списка категорий для бокового меню
         if category_id is not None:
@@ -44,11 +45,18 @@ class LotListView(ListView):
         else:
             context['category_list'] = models.Category.get_root_nodes()
 
+        if location_id is not None:
+            current_location = Location.objects.get(id=location_id)
+            location_descendants = current_location.get_descendants()
+            context['current_location'] = current_location
+            context['location_descendants'] = location_descendants
+
         return context
     
     def get_queryset(self):
         queryset = super().get_queryset()
         category_id = self.kwargs.get('pk', None)
+        location_id = self.request.session.get('location_id', None)
 
         # Фильтрация кверисета по категории, если она задана
         if category_id is not None:
@@ -57,6 +65,15 @@ class LotListView(ListView):
             queryset = queryset.filter(
                 Q(category__in=category_descendants) | Q(category=current_category)
             )
+
+        if location_id is not None:
+            current_location = Location.objects.get(id=location_id)
+            location_descendants = current_location.get_descendants()
+            authors = Profile.objects.filter(
+                Q(location__in=location_descendants) \
+                    | Q(location=current_location)
+            )
+            queryset = queryset.filter(author__profile__in=authors)
 
         return queryset
 
@@ -67,10 +84,23 @@ def category_select(request):
 
     if request.method == 'POST':
         if form.is_valid():
-            request.session['category_id'] = form.cleaned_data['category'].id
-            return HttpResponseRedirect(reverse('lot_create'))
+            if form.cleaned_data['category'] is not None:
+                request.session['category_id'] = form.cleaned_data['category'].id
+                return HttpResponseRedirect(reverse('lot_create'))
 
     return render(request, 'market/category_select.html', {'form': form})
+
+
+def location_select(request):
+    form = LocationForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            if form.cleaned_data['location'] is not None:
+                request.session['location_id'] = form.cleaned_data['location'].id
+                return HttpResponseRedirect(reverse('market'))
+
+    return render(request, 'market/location_select.html', {'form': form})
 
 
 class LotCreateView(LoginRequiredMixin, CreateView):

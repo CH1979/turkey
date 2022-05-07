@@ -25,7 +25,7 @@ def image_rename(instance, filename):
 
 
 class Location(MP_Node):
-    """Местоположение"""
+    """Регион"""
     name = models.CharField(
         max_length=30,
         verbose_name='наименование',
@@ -40,8 +40,8 @@ class Location(MP_Node):
     )
 
     class Meta:
-        verbose_name = 'местоположение'
-        verbose_name_plural = 'местоположения'
+        verbose_name = 'регион'
+        verbose_name_plural = 'регионы'
         ordering = ['name']
 
     def __str__(self):
@@ -64,7 +64,7 @@ class Profile(models.Model):
     )
     location = TreeForeignKey(
         to=Location,
-        verbose_name='местоположение',
+        verbose_name='регион',
         blank=True,
         null=True,
         on_delete=models.SET_NULL,

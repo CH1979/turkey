@@ -5,9 +5,18 @@
 {% block meta_desc %}объявления в Турции {{ current_category|lower }}{% endblock %}
 
 {% block content %}
-<div role="main" class="main shop pt-4">
+<div role="main" class="main shop">
 
     <div class="container">
+        <div class="row py-2">
+            <div class="col-12">
+            {% if current_location %}
+                Выбрать регион: <a href="{% url 'location_select' %}">{% for location in current_location.get_ancestors %}{{ location }} / {% endfor %}{{ current_location }}</a>
+            {% else %}
+                Выбрать регион: <a href="{% url 'location_select' %}">вся Турция</a>
+            {% endif %}
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-lg-3 order-2 order-lg-1">

@@ -51,7 +51,16 @@
             <p class="text-color-dark font-weight-bold text-3 text-uppercase mb-2">Контакты</p>
 
             <p class="mb-2">{{ lot.author.profile }}</p>
+            {% if lot.author.profile.location %}
+            <p class="mb-2">{% for location in lot.author.profile.location.get_ancestors %}{{ location }} / {% endfor %}{{ lot.author.profile.location }}</p>
+            {% else %}
+            <p class="mb-2">Регион не указан</p>
+            {% endif %}
+            {% if lot.author.profile.phone %}
             <p class="mb-4">{{ lot.author.profile.phone }}</p>
+            {% else %}
+            <p class="mb-2">Телефон не указан</p>
+            {% endif %}
 
 
             <div class="d-flex align-items-center mb-3">
