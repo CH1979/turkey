@@ -6,7 +6,7 @@
 
     <div class="container">
 
-        <!-- Newest (last) articles -->
+        <!-- Newest (last) articles   Самые новые статьи без учета рубрики -->
         <div class="row pb-1">
             {% for article in last_articles %}
                 {% if forloop.counter == 1 %}
@@ -72,7 +72,7 @@
 
         <div class="row pb-1 pt-2">
 
-            <!-- Rubrics on main -->
+            <!-- Rubrics on main   Статьи из рубрик, которые выбраны для отображения на главной -->
             <div class="col-md-9">
                 {% for rubric, articles in groupped_articles.items %}
                     {% if articles %}
@@ -149,7 +149,7 @@
                     {% endif %}
                 {% endfor %}
 
-
+                    <!--  Не использованные (не подключенные) блоки -->
                     <div class="row pb-1 pt-3">
                         <div class="col-md-6">
 
@@ -452,6 +452,9 @@
                     </div>
                     <h5 class="font-weight-semi-bold pt-4">Photos from Instagram</h5>
                     <div class="instagram-feed" data-type="nomargins" class="mb-4 pb-1"></div>
+
+
+                    <!--  Теги и рубрики  -->
                     <h5 class="font-weight-semi-bold pt-4 mb-2">Теги</h5>
                     <div class="mb-3 pb-1">
                         {% for tag in tags %}
@@ -473,6 +476,8 @@
                         {% endfor %}
                     </div>
 
+                    
+                    <!--  Не использованные (не подключенные) блоки -->
                     <h5 class="font-weight-semi-bold pt-4">Find us on Facebook</h5>
                     <div class="fb-page"></div>
                 </aside>
