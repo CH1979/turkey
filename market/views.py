@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import (
     CreateView,
@@ -139,7 +139,13 @@ class LotDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Lot
 
     def get_success_url(self):
-        return reverse('profile', kwargs={'pk': self.request.user.profile.id})
+        return reverse('profile_detail', kwargs={'pk': self.request.user.profile.id})
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.author != self.request.user:
+            return redirect(obj)
+        return super(LotDeleteView, self).dispatch(request, *args, **kwargs)
 
 
 @login_required

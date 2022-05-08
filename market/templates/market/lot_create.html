@@ -62,7 +62,7 @@
                     <div class="row">
                         <div class="form-group col">
                             <label class="form-label text-color-dark text-3" for="id_extra_fields">{{ field.name }}:</label>
-                            <input class="form-control form-control-lg text-4 extra-field" name="{{ field.name }}">
+                            <input class="form-control form-control-lg text-4 extra-field {% if field.required %}required{% endif %}" name="{{ field.name }}">
                         </div>
                     </div>
                 {% endfor %}

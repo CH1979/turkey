@@ -23,6 +23,7 @@ class ArticleMainView(TemplateView):
         context['groupped_articles'] = groupped_articles
 
         context['tags'] = Tag.objects.all()
+        context['rubrics'] = Rubric.objects.all()
         return context
 
 

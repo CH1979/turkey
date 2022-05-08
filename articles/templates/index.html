@@ -452,7 +452,7 @@
                     </div>
                     <h5 class="font-weight-semi-bold pt-4">Photos from Instagram</h5>
                     <div class="instagram-feed" data-type="nomargins" class="mb-4 pb-1"></div>
-                    <h5 class="font-weight-semi-bold pt-4 mb-2">Тэги</h5>
+                    <h5 class="font-weight-semi-bold pt-4 mb-2">Теги</h5>
                     <div class="mb-3 pb-1">
                         {% for tag in tags %}
                             <a href="{% url 'articles_by_tag' tag.id %}">
@@ -462,6 +462,17 @@
                             </a>
                         {% endfor %}
                     </div>
+                    <h5 class="font-weight-semi-bold pt-4 mb-2">Рубрики</h5>
+                    <div class="mb-3 pb-1">
+                        {% for rubric in rubrics %}
+                            <a href="{% url 'articles_by_rubric' rubric.id %}">
+                                <span class="badge badge-dark badge-sm rounded-pill text-uppercase px-2 py-1 me-1">
+                                    {{ rubric.name }}
+                                </span>
+                            </a>
+                        {% endfor %}
+                    </div>
+
                     <h5 class="font-weight-semi-bold pt-4">Find us on Facebook</h5>
                     <div class="fb-page"></div>
                 </aside>
