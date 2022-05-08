@@ -68,6 +68,9 @@ class LotListView(ListView):
 
         if location_id is not None:
             current_location = Location.objects.get(id=location_id)
+            if current_location.is_root():
+                return queryset
+
             location_descendants = current_location.get_descendants()
             authors = Profile.objects.filter(
                 Q(location__in=location_descendants) \

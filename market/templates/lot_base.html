@@ -13,7 +13,7 @@
             {% if current_location %}
                 Выбрать регион: <a href="{% url 'location_select' %}">{% for location in current_location.get_ancestors %}{{ location }} / {% endfor %}{{ current_location }}</a>
             {% else %}
-                Выбрать регион: <a href="{% url 'location_select' %}">вся Турция</a>
+                Выбрать регион: <a href="{% url 'location_select' %}">Republic Türkiye</a>
             {% endif %}
             </div>
         </div>
