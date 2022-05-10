@@ -24,6 +24,8 @@ from machina import urls as machina_urls
 from articles.sitemaps import ArticleViewSitemap
 from market.sitemaps import LotViewSitemap
 from .sitemaps import ForumSitemap
+from .views import AgreementView, PrivacyView
+
 
 sitemaps = {
     'market': LotViewSitemap,
@@ -82,6 +84,16 @@ urlpatterns = [
         sitemap_views.sitemap,
         {'sitemaps': sitemaps},
         name='django.contrib.sitemaps.views.sitemap',
+    ),
+    path(
+        'privacy',
+        PrivacyView.as_view(),
+        name='privacy'
+    ),
+    path(
+        'agreement',
+        AgreementView.as_view(),
+        name='agreement'
     ),
     path(
         '',
