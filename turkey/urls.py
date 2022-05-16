@@ -102,7 +102,7 @@ urlpatterns = [
     ),
 ]
 
-if settings.DEBUG:
+if True: # settings.DEBUG:
     urlpatterns = urlpatterns + static(
         settings.STATIC_URL,
         document_root=settings.STATIC_ROOT
@@ -111,3 +111,12 @@ if settings.DEBUG:
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
     )
+
+
+handler404 = "turkey.views.page_not_found_view"
+
+handler500 = "turkey.views.error_view"
+
+handler403 = "turkey.views.permission_denied_view"
+
+handler400 = "turkey.views.bad_request_view"

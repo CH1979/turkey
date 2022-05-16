@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+
+            <h1>404</h1>
+            <h2>Страница не найдена</h2>
+            <p>Ссылка по которой Вы перешли указывает на несуществующую страницу. 
+                Возможно она была удалена или доступна по другой ссылке.</p>
+            <p>Вернитесь к <a href="{% url 'index' %}">главной странице</a> 
+                или воспользуйтесь <a href="{% url 'haystack_search' %}">поиском</a>.</p>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
